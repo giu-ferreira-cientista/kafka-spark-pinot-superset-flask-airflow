@@ -183,7 +183,7 @@ docker-compose up
 # Inspect pinot containers to get ips 
 pinot+http://<ip_pinot_broker>:8099/query?server=http://<ip_pinot_controller>:9000/
 
-Ex: pinot+http://172.29.0.12:8099/query?server=http://172.29.0.8:9000/
+pinot+http://172.29.0.12:8099/query?server=http://172.29.0.8:9000/
 
 # Superset Pinot Version
 docker run --name=superset \
@@ -206,6 +206,8 @@ docker exec \
     bash -c 'superset import_datasources -p /etc/examples/pinot/pinot_example_datasource_quickstart.yaml && \
              superset import_dashboards -p /etc/examples/pinot/pinot_example_dashboard.json'
 
+
+pinot+http://172.29.0.12:8099/query?server=http://172.29.0.8:9000/
 
 # Include Airflow
 cd airflow
