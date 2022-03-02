@@ -145,14 +145,9 @@ services:
       - "8888:8888"
       - "4040-4080:4040-4080"
     links:
-      - "kafka:kafka-server" #allows spark notebook to discover kafka service by name "kafka-server"
+      - "kafka0:kafka-server" #allows spark notebook to discover kafka service by name "kafka-server"
     volumes:
-      - ./notebooks:/home/jovyan/work/notebooks/  
-  
-
-
-
-  
+      - ./notebooks:/home/jovyan/work/notebooks/    
   
   kafka-init-topics:
     image: confluentinc/cp-kafka:5.3.1
