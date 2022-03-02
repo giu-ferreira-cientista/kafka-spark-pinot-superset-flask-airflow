@@ -1,5 +1,5 @@
 # Flask and Kafka
-Repositorio para armazenar os artefatos do projeto de conexao da API em Flask com o Kafka
+Repositorio para armazenar os artefatos do projeto de conexao da API em Flask com o Kafka, processamento dos dados via spark e posterior OLAP Realtime with Low Latency com o Pinot e criação do Dashboard com o Superset para exibição de gráficos
 
 https://kafka.apache.org/quickstart
 
