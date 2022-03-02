@@ -348,3 +348,5 @@ rm -rf /tmp/kafka-logs /tmp/zookeeper
 
 
 
+kafka-console-consumer --topic wiki-changes --from-beginning --bootstrap-server localhost:9099
+
