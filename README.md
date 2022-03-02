@@ -115,29 +115,18 @@ export _JAVA_OPTIONS=-Xmx8024m
 
 *arquivo original editado
 
-docker cp apache-pinot-0.9.3-bin/examples/airlineStats_realtime_table_config.json pinot-controller:/opt/pinot/examples/airlineStats_realtime_table_config.json
+docker cp pinot/examples/airlineStats_realtime_table_config.json manual-pinot-controller:/opt/pinot/examples/airlineStats_realtime_table_config.json
 
-docker cp apache-pinot-0.9.3-bin/examples/docker/airlineStats_realtime_table_config.json pinot-controller:/opt/pinot/examples/docker/airlineStats_realtime_table_config.json
-
-
+# Inspect into manual-pinot-controller
 
 bin/pinot-admin.sh AddTable \
     -schemaFile examples/stream/airlineStats/airlineStats_schema.json \
     -tableConfigFile examples/airlineStats_realtime_table_config.json \
     -exec    
 
-docker version
-bin/pinot-admin.sh AddTable \
-    -schemaFile examples/stream/airlineStats/airlineStats_schema.json \
-    -tableConfigFile examples/docker/airlineStats_realtime_table_config.json \
-    -exec    
+# Load Data into Kafka Topic and Query Pinot Table Again
 
-
-
-
-# Load Data into Pinot table
-
-# Record Schema
+# Sample Data 
 {"Quarter":1,"FlightNum":1,"Origin":"JFK","LateAircraftDelay":null,"DivActualElapsedTime":null,"DivWheelsOns":null,"DivWheelsOffs":null,"ArrDel15":0,"AirTime":359,"DivTotalGTimes":null,"DepTimeBlk":"0900-0959","DestCityMarketID":32575,"DaysSinceEpoch":16071,"DivAirportSeqIDs":null,"DepTime":914,"Month":1,"DestStateName":"California","CRSElapsedTime":385,"Carrier":"AA","DestAirportID":12892,"Distance":2475,"ArrTimeBlk":"1200-1259","SecurityDelay":null,"DivArrDelay":null,"LongestAddGTime":null,"OriginWac":22,"WheelsOff":934,"UniqueCarrier":"AA","DestAirportSeqID":1289203,"DivReachedDest":null,"Diverted":0,"ActualElapsedTime":384,"AirlineID":19805,"OriginStateName":"New York","FlightDate":"2014-01-01","DepartureDelayGroups":0,"DivAirportLandings":0,"OriginCityName":"New York, NY","OriginStateFips":36,"OriginState":"NY","DistanceGroup":10,"WeatherDelay":null,"DestWac":91,"WheelsOn":1233,"OriginAirportID":12478,"OriginCityMarketID":31703,"NASDelay":null,"DestState":"CA","ArrTime":1238,"ArrivalDelayGroups":0,"Flights":1,"DayofMonth":1,"RandomAirports":["SEA","PSC","PHX","MSY","ATL","TYS","DEN","CHS","PDX","LAX","EWR","SFO","PIT","RDU","RAP","LSE","SAN","SBN","IAH","OAK","BRO","JFK","SAT","ORD","ACY","DFW","BWI","TPA","BFL","BOS","SNA","ISN"],"TotalAddGTime":null,"CRSDepTime":900,"DayOfWeek":3,"Dest":"LAX","CancellationCode":null,"FirstDepTime":null,"DivTailNums":null,"DepDelayMinutes":14,"DepDelay":14,"TaxiIn":5,"OriginAirportSeqID":1247802,"DestStateFips":6,"ArrDelay":13,"Cancelled":0,"DivAirportIDs":null,"TaxiOut":20,"DepDel15":0,"CarrierDelay":null,"DivLongestGTimes":null,"DivAirports":null,"DivDistance":null,"Year":2014,"CRSArrTime":1225,"ArrDelayMinutes":13,"TailNum":"N338AA","DestCityName":"Los Angeles, CA"}
 
 # Drop Table Pinot
@@ -191,9 +180,31 @@ docker-compose build --force-rm
 
 docker-compose up
 
-pinot+http://<ip_pinot>:8099/query?server=http://<ip_pinot>:9000/
+# Inspect pinot containers to get ips 
+pinot+http://<ip_pinot_broker>:8099/query?server=http://<ip_pinot_controller>:9000/
 
-pinot+http://10.0.2.100:8099/query?server=http://10.0.2.100:9000/
+Ex: pinot+http://172.29.0.12:8099/query?server=http://172.29.0.8:9000/
+
+# Superset Pinot Version
+docker run --name=superset \
+  -p 8088:8088 \
+  -d apachepinot/pinot-superset:latest
+
+docker exec -it superset superset fab create-admin \
+               --username admin \
+               --firstname Superset \
+               --lastname Admin \
+               --email admin@superset.com \
+               --password admin
+
+docker exec -it superset superset db upgrade
+
+docker exec -it superset superset init
+
+docker exec \
+    -t superset \
+    bash -c 'superset import_datasources -p /etc/examples/pinot/pinot_example_datasource_quickstart.yaml && \
+             superset import_dashboards -p /etc/examples/pinot/pinot_example_dashboard.json'
 
 
 # Include Airflow
