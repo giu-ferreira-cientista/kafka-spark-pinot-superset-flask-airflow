@@ -2,7 +2,7 @@
 Repositorio para armazenar os artefatos do projeto de conexao da API em Flask com o Kafka, processamento dos dados via spark e posterior OLAP Realtime with Low Latency com o Pinot e criação do Dashboard com o Superset para exibição de gráficos
 
 # USE DOCKER COMPOSE TO LOAD THE ENVIROMENT - kafka, kafka-ui, jupyter, spark, pinot and superset 
-$ docker-compose docker-compose_kafka_spark_pinot_superset.yaml up -d
+$ docker-compose up -d
 
 Main Published Ports:
 - 8081 - Kafka-Ui
