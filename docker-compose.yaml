@@ -17,14 +17,14 @@ services:
     environment:
       KAFKA_CLUSTERS_0_NAME: local
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka0:29092
-      KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper0:2191
+      KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper0:2181
       KAFKA_CLUSTERS_0_JMXPORT: 9997
       KAFKA_CLUSTERS_0_SCHEMAREGISTRY: http://schemaregistry0:8085
       KAFKA_CLUSTERS_0_KAFKACONNECT_0_NAME: first
       KAFKA_CLUSTERS_0_KAFKACONNECT_0_ADDRESS: http://kafka-connect0:8083
       KAFKA_CLUSTERS_1_NAME: secondLocal
       KAFKA_CLUSTERS_1_BOOTSTRAPSERVERS: kafka1:29092
-      KAFKA_CLUSTERS_1_ZOOKEEPER: zookeeper1:2191
+      KAFKA_CLUSTERS_1_ZOOKEEPER: zookeeper1:2181
       KAFKA_CLUSTERS_1_JMXPORT: 9998
       KAFKA_CLUSTERS_1_SCHEMAREGISTRY: http://schemaregistry1:8085
       KAFKA_CLUSTERS_1_KAFKACONNECT_0_NAME: first
@@ -33,10 +33,10 @@ services:
   zookeeper0:
     image: confluentinc/cp-zookeeper:5.2.4
     environment:
-      ZOOKEEPER_CLIENT_PORT: 2191
+      ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
     ports:
-      - 2191:2181
+      - 2181:2181
 
   kafka0:
     image: confluentinc/cp-kafka:5.3.1
@@ -47,7 +47,7 @@ services:
       - 9997:9997
     environment:
       KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper0:2191
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper0:2181
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka0:29092,PLAINTEXT_HOST://localhost:9092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
@@ -58,7 +58,7 @@ services:
   zookeeper1:
     image: confluentinc/cp-zookeeper:5.2.4
     environment:
-      ZOOKEEPER_CLIENT_PORT: 2191
+      ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
 
   kafka1:
@@ -70,7 +70,7 @@ services:
       - 9998:9998
     environment:
       KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper1:2191
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper1:2181
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka1:29092,PLAINTEXT_HOST://localhost:9093
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
@@ -87,7 +87,7 @@ services:
       - kafka0
     environment:
       SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: PLAINTEXT://kafka0:29092
-      SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: zookeeper0:2191
+      SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: zookeeper0:2181
       SCHEMA_REGISTRY_KAFKASTORE_SECURITY_PROTOCOL: PLAINTEXT
       SCHEMA_REGISTRY_HOST_NAME: schemaregistry0
       SCHEMA_REGISTRY_LISTENERS: http://schemaregistry0:8085
@@ -105,7 +105,7 @@ services:
       - kafka1
     environment:
       SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: PLAINTEXT://kafka1:29092
-      SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: zookeeper1:2191
+      SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: zookeeper1:2181
       SCHEMA_REGISTRY_KAFKASTORE_SECURITY_PROTOCOL: PLAINTEXT
       SCHEMA_REGISTRY_HOST_NAME: schemaregistry1
       SCHEMA_REGISTRY_LISTENERS: http://schemaregistry1:8085
@@ -148,7 +148,9 @@ services:
       - "kafka0:kafka-server" #allows spark notebook to discover kafka service by name "kafka-server"
     volumes:
       - ./notebooks:/home/jovyan/work/notebooks/    
-  
+
+
+
   kafka-init-topics:
     image: confluentinc/cp-kafka:5.3.1
     volumes:
@@ -157,7 +159,55 @@ services:
       - kafka1
     command: "bash -c 'echo Waiting for Kafka to be ready... && \
                cub kafka-ready -b kafka1:29092 1 30 && \
-               kafka-topics --create --topic second.users --partitions 3 --replication-factor 1 --if-not-exists --zookeeper zookeeper1:2191 && \
-               kafka-topics --create --topic second.messages --partitions 2 --replication-factor 1 --if-not-exists --zookeeper zookeeper1:2191 && \
-               kafka-topics --create --topic first.messages --partitions 2 --replication-factor 1 --if-not-exists --zookeeper zookeeper0:2191 && \
-               kafka-console-producer --broker-list kafka1:29092 -topic second.users < ./message.json'"
+               kafka-topics --create --topic second.users --partitions 3 --replication-factor 1 --if-not-exists --zookeeper zookeeper1:2181 && \
+               kafka-topics --create --topic second.messages --partitions 2 --replication-factor 1 --if-not-exists --zookeeper zookeeper1:2181 && \
+               kafka-topics --create --topic first.messages --partitions 2 --replication-factor 1 --if-not-exists --zookeeper zookeeper0:2181 && \
+               kafka-console-producer --broker-list kafka1:29092 -topic second.users < /data/message.json'"
+
+  pinot-zookeeper:
+    image: zookeeper:3.5.6
+    hostname: zookeeper
+    container_name: manual-zookeeper
+    ports:
+      - "2182:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2182
+      ZOOKEEPER_TICK_TIME: 2000
+  pinot-controller:
+    image: apachepinot/pinot:0.9.3
+    command: "StartController -zkAddress manual-zookeeper:2181"
+    container_name: "manual-pinot-controller"
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+    environment:
+      JAVA_OPTS: "-Dplugins.dir=/opt/pinot/plugins -Xms1G -Xmx4G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-controller.log"
+    depends_on:
+      - pinot-zookeeper
+  pinot-broker:
+    image: apachepinot/pinot:0.9.3
+    command: "StartBroker -zkAddress manual-zookeeper:2181"
+    restart: unless-stopped
+    container_name: "manual-pinot-broker"
+    ports:
+      - "8099:8099"
+    environment:
+      JAVA_OPTS: "-Dplugins.dir=/opt/pinot/plugins -Xms4G -Xmx4G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-broker.log"
+    depends_on:
+      - pinot-controller
+  pinot-server:
+    image: apachepinot/pinot:0.9.3
+    command: "StartServer -zkAddress manual-zookeeper:2181"
+    restart: unless-stopped
+    container_name: "manual-pinot-server" 
+    environment:
+      JAVA_OPTS: "-Dplugins.dir=/opt/pinot/plugins -Xms4G -Xmx16G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-server.log"
+    depends_on:
+      - pinot-broker
+  
+  superset:
+    image: apachepinot/pinot-superset:latest
+    container_name: "superset"
+    ports:
+      - "8088:8088"
+    
