@@ -10,13 +10,25 @@ Main Published Ports:
 - 8888 - Jupyter / Pyspark Notebook
 - 8088 - Superset
 
+Main Services Ports:
+- 9092  - Kafka
+- 29092 - Kafka Broker
+- 2181  - Zookeeper
+- 2182  - Pinot Zookeeper
+- 9000  - Pinot Controller
+- 8099  - Pinot Broker
+- 8098  - Pinot Server
+- 4040  - Spark
+- 5000  - Rest API 
+
+
 # Create Pinot Table Schema
 $ docker cp pinot/examples/airlineStats_realtime_table_config.json manual-pinot-controller:/opt/pinot/examples/airlineStats_realtime_table_config.json
 
 # Inspect into manual-pinot-controller and Add Table
 $ bin/pinot-admin.sh AddTable \
     -schemaFile examples/stream/airlineStats/airlineStats_schema.json \
-    -tableConfigFile examples/airlineStats_realtime_table_config.json \
+    -tableConfigFile examples/test_airlineStats_realtime_table_config.json \
     -exec    
 
 # Configure Superset Enviroment
@@ -45,21 +57,19 @@ pinot+http://172.29.0.12:8099/query?server=http://172.29.0.8:9000/
 
 # Running the Flask API Producers and Consumers
 
-# Create Kafka Topics
+# Create Kafka Topics (Inspect in kafka0 ang get <kafka0> ip address and change in commands below. Shell in kafka-zookeeper and run commands below)
 
-$ bin/kafka-topics.sh --create --topic INFERENCE --bootstrap-server localhost:9092
-or
-$ bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 3 --topic INFERENCE
+$ kafka-topics --create --bootstrap-server <kafka0>:29092 --replication-factor 1 --partitions 3 --topic INFERENCE
 
-$ bin/kafka-topics.sh --create --topic EMAIL --bootstrap-server localhost:9092
+$ kafka-topics --create --bootstrap-server <kafka0>:29092 --replication-factor 1 --partitions 3 --topic EMAIL
 
-$ bin/kafka-topics.sh --create --topic NOTIFICATION --bootstrap-server localhost:9092
+$ kafka-topics --create --bootstrap-server <kafka0>:29092 --replication-factor 1 --partitions 3 --topic NOTIFICATION
 
 # Console - Produce some events
-$ bin/kafka-console-producer.sh --topic INFERENCE --bootstrap-server localhost:9092
+$ kafka-console-producer --broker-list <kafka0>:29092 --topic INFERENCE
 
 # Console - Open Consumer
-$ bin/kafka-console-consumer.sh --topic INFERENCE --from-beginning --bootstrap-server localhost:9092
+$ kafka-console-consumer --bootstrap-server <kafka0>:9092 --topic INFERENCE
 
 # Run API
 $ python app.py
@@ -91,11 +101,25 @@ $ python REST_API_consumer.py
 # Just Sit and Watch!
 $ Check Kafka-Ui and console logs to see the data flow
 
+# Include Spark Structured Streaming Processing
+open 8888 port on your browser
+
+# Inspect spark-1 Container
+$ jupyter notebook list
+
+copy and paste token on your browser
+
+# Running Spark Apps
+open all notebooks in this order and click Cell>Run All: producer, consumer, datavisualization 
+
+# Check Results on Kafka-Ui and Console Logs
+Query kafka topics and check the generated graphics and tables
+
 # Stop Flask
-$ stop the Flask Server with Ctrl-C.
+$ stop the Flask Server with Ctrl-C
 
 # Stop Producers and Consumers
-$ stop terminals with Ctrl-C.
+$ stop terminals with Ctrl-C
 
 # Stop Kafka
 $ docker-compose docker-compose_kafka_spark_pinot_superset.yaml down
