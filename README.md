@@ -115,6 +115,15 @@ open all notebooks in this order and click Cell>Run All: producer, consumer, dat
 # Check Results on Kafka-Ui and Console Logs
 Query kafka topics and check the generated graphics and tables
 
+
+# Include Airlfow
+curl -LfO 'https://airflow.apache.org/docs/apache-airflow/2.2.4/docker-compose.yaml'
+mkdir -p ./dags ./logs ./plugins
+echo -e "AIRFLOW_UID=$(id -u)" > .env
+docker-compose up airflow-init
+docker-compose up
+Open browser port 8080 and login wit user airflow and password airflow
+
 # Stop Flask
 $ stop the Flask Server with Ctrl-C
 
