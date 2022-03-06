@@ -48,6 +48,7 @@ $ docker exec \
     bash -c 'superset import_datasources -p /etc/examples/pinot/pinot_example_datasource_quickstart.yaml && \
              superset import_dashboards -p /etc/examples/pinot/pinot_example_dashboard.json'
 
+
 # Add Pinot Superset Database through the Superset UI (Replace the ip with your pinot broker and controller)
 pinot+http://172.29.0.12:8099/query?server=http://172.29.0.8:9000/
 
@@ -123,6 +124,22 @@ echo -e "AIRFLOW_UID=$(id -u)" > .env
 docker-compose up airflow-init
 docker-compose up
 Open browser port 8080 and login wit user airflow and password airflow
+
+
+# Another example 
+$ docker cp pinot/examples/transcript_realtime_table_config.json manual-pinot-controller:/opt/pinot/examples/transcript_realtime_table_config.json
+
+$ docker cp pinot/examples/transcript_schema.json manual-pinot-controller:/opt/pinot/examples/transcript_schema.json
+
+# Shell into Pinot controller 
+$ bin/pinot-admin.sh AddTable \
+    -schemaFile examples/transcript_schema.json \
+    -tableConfigFile examples/transcript_realtime_table_config.json \
+    -exec
+
+# Load sample data 
+open pinot/examples/transcript_sample_data.json and copy and paste into kafka-ui
+
 
 # Stop Flask
 $ stop the Flask Server with Ctrl-C
