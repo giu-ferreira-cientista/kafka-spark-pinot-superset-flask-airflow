@@ -1,8 +1,16 @@
 # Data Pipeline API with Flask, Kafka, Spark, Pinot and Superset 
 Repositorio para armazenar os artefatos do projeto de conexao da API em Flask com o Kafka, processamento dos dados via spark e posterior OLAP Realtime with Low Latency com o Pinot e criação do Dashboard com o Superset para exibição de gráficos
 
-# USE DOCKER COMPOSE TO LOAD THE ENVIROMENT - kafka, kafka-ui, jupyter, spark, pinot and superset 
+
+# USE DOCKER COMPOSE TO LOAD THE ENVIROMENT - kafka, kafka-ui, jupyter, spark, pinot, superset and airflow
+$ mkdir -p ./dags ./logs ./plugins
+
+$ echo -e "AIRFLOW_UID=$(id -u)" > .env
+
+$ docker-compose up airflow-init
+
 $ docker-compose up -d
+
 
 Main Published Ports:
 - 8081 - Kafka-Ui
@@ -75,6 +83,13 @@ $ kafka-console-producer --broker-list <kafka0>:29092 --topic INFERENCE
 # Console - Open Consumer
 $ kafka-console-consumer --bootstrap-server <kafka0>:9092 --topic INFERENCE
 
+# Install Python Packages
+$ pip install flask
+
+$ pip install flask-cors
+
+$ pip install kafka-python
+
 # Run API
 $ python app.py
 
@@ -108,7 +123,7 @@ $ Check Kafka-Ui and console logs to see the data flow
 # Include Spark Structured Streaming Processing
 open 8888 port on your browser
 
-# Inspect spark-1 Container
+# Shell into spark-1 Container
 $ jupyter notebook list
 
 copy and paste token on your browser
@@ -127,6 +142,31 @@ echo -e "AIRFLOW_UID=$(id -u)" > .env
 docker-compose up airflow-init
 docker-compose up
 Open browser port 8080 and login wit user airflow and password airflow
+
+# Copy DAG file to airflow directory
+docker cp dags/call_api_producer.py kafka-spark-pinot-superset-flask-airflow-airflow-webserver-1:/home/airflow/.local/lib/python3.7/site-packages/airflow/example_dags/call_api_producer.py
+
+docker cp kafka-spark-pinot-superset-flask-airflow-airflow-webserver-1:/home/airflow/.local/lib/python3.7/site-packages/airflow/example_dags/example_bash_operator.py dags/example_bash_operator.py
+
+# Include Spark API (Shell into Spark Container)
+$ pip install flask
+
+$ pip install flask-cors
+
+$ python app.py
+
+Find IP address of spark container to call the API on : <ip_spark>:5000/execute
+
+Or open the url on browser to call the API  : <ip_spark>:5500/execute
+
+# Command to execute via API (shell into spark container to test it)
+
+$ pip install sseclient
+
+$ pip install kafka-python
+
+$ spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:2.4.5,io.delta:delta-core_2.12:0.7.0 --master local[*] --driver-memory 12g --executor-memory 12g work/notebooks/event-producer.py
+
 
 
 # Another example 
