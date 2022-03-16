@@ -11,7 +11,7 @@ producer = KafkaProducer(
     )
 
 # Read streaming event
-url = 'https://api.mockaroo.com/api/e172bfb0?count=1000&key=42e8f800'
+url = 'https://stream.wikimedia.org/v2/stream/recentchange'
 try:
     for event in EventSource(url):
         if event.event == 'message':
@@ -21,7 +21,7 @@ try:
                 pass
             else:
                 #Send msg to topic wiki-changes
-                producer.send('patient-data', change)
+                producer.send('wiki-changes', change)
 
 except KeyboardInterrupt:
     print("process interrupted")

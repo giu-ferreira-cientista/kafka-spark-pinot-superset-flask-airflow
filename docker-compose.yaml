@@ -174,15 +174,23 @@ services:
     ports:
       - "5500:5000"
       - "8888:8888"
-      #- "4040-4080:4040-4080"
     links:
       - "kafka0:kafka-server" #allows spark notebook to discover kafka service by name "kafka-server"
     volumes:
       - ./notebooks:/home/jovyan/work/notebooks/
       - ./spark:/home/jovyan/work/spark    
+      - ./csv:/home/jovyan/work/csv
+      - ./spark/secrets:/etc/secrets
     depends_on:
       - kafka0
-    
+    user: root  
+    working_dir: /home/jovyan/work
+    environment:
+      JUPYTER_ENABLE_LAB: 1 
+      NB_USER: jovyan
+      NB_GID: 1000
+      CHOWN_HOME: 'yes'
+      CHOWN_HOME_OPTS: '-R'
 
   kafka-init-topics:
     image: confluentinc/cp-kafka:5.3.1

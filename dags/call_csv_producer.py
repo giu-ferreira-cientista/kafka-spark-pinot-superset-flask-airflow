@@ -9,12 +9,12 @@ from airflow.operators.bash import BashOperator
 from airflow.operators.dummy import DummyOperator
 
 with DAG(
-    dag_id='call_api_producer_dag',
+    dag_id='call_csv_producer_dag',
     schedule_interval='0 0 * * *',
     start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
     catchup=False,
     dagrun_timeout=datetime.timedelta(minutes=60),
-    tags=['stacklabs', 'producer', 'api'],
+    tags=['stacklabs', 'producer', 'csv'],
 ) as dag:
     run_this_last = DummyOperator(
         task_id='dummy',
@@ -22,8 +22,8 @@ with DAG(
 
     # [START howto_operator_bash]
     run_this = BashOperator(
-        task_id='call_api_producer',
-        bash_command='curl http://172.19.0.18:5000/execute-api',
+        task_id='call_csv_producer',
+        bash_command='curl http://172.19.0.18:5000/execute-csv',
     )
     # [END howto_operator_bash]
 
