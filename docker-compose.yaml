@@ -19,9 +19,9 @@ x-airflow-common:
     AIRFLOW__API__AUTH_BACKEND: 'airflow.api.auth.backend.basic_auth'
     _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:-}
   volumes:
-    - ./dags:/opt/airflow/dags
-    - ./logs:/opt/airflow/logs
-    - ./plugins:/opt/airflow/plugins
+    - ./airflow/dags:/opt/airflow/dags
+    - ./airflow/logs:/opt/airflow/logs
+    - ./airflow/plugins:/opt/airflow/plugins
   user: "${AIRFLOW_UID:-50000}:0"
   depends_on:
     &airflow-common-depends-on
@@ -177,9 +177,9 @@ services:
     links:
       - "kafka0:kafka-server" #allows spark notebook to discover kafka service by name "kafka-server"
     volumes:
-      - ./notebooks:/home/jovyan/work/notebooks/
-      - ./spark:/home/jovyan/work/spark    
-      - ./csv:/home/jovyan/work/csv
+      - ./spark/notebooks:/home/jovyan/work/notebooks/
+      - ./spark/api:/home/jovyan/work/api    
+      - ./spark/csv:/home/jovyan/work/csv
       - ./spark/secrets:/etc/secrets
     depends_on:
       - kafka0
