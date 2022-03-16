@@ -3,7 +3,6 @@ Repositorio para armazenar os artefatos do projeto de conexao da API em Flask co
 
 
 # USE DOCKER COMPOSE TO LOAD THE ENVIROMENT - kafka, kafka-ui, jupyter, spark, pinot, superset and airflow
-$ mkdir -p ./dags ./logs ./plugins
 
 $ echo -e "AIRFLOW_UID=$(id -u)" > .env
 
