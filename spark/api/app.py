@@ -8,7 +8,7 @@ from subprocess import Popen
 app = Flask(__name__)
 
 @app.route('/execute-api', methods=['GET'])
-def execute():
+def execute_api():
 
     print("Executing Command...")
     
@@ -19,12 +19,12 @@ def execute():
     #p.terminate()
 
     return jsonify({
-        "message": "Command Executed OK", 
+        "message": "Command API Executed OK", 
         "status": "Pass"})
 
 
 @app.route('/execute-csv', methods=['GET'])
-def execute():
+def execute_csv():
 
     print("Executing Command...")
     
@@ -35,7 +35,7 @@ def execute():
     #p.terminate()
 
     return jsonify({
-        "message": "Command Executed OK", 
+        "message": "Command CSV Executed OK", 
         "status": "Pass"})
 
 
