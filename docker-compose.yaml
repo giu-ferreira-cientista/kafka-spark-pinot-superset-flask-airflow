@@ -214,6 +214,10 @@ services:
       - ./spark/secrets:/etc/secrets
     depends_on:
       - kafka0
+    command: "bash -c 'pip install flask flask-cors kafka-python sseclient && \
+               chmod -R 777 api csv json notebooks && \
+               cd api && \
+               python app.py'"
     user: root  
     working_dir: /home/jovyan/work
     environment:
@@ -343,8 +347,6 @@ services:
     <<: *airflow-common
     command: webserver
     container_name: "airflow-webserver"
-    links:
-      - "spark:spark-server" #allows airflow dags to discover spark service by name "spark-server"
     ports:
       - 8080:8080
     healthcheck:
