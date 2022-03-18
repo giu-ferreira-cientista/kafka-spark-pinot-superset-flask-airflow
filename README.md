@@ -12,7 +12,7 @@ $ docker-compose up -d
 
 # Shell into spark container
 
-$ pip install flask flask-cors kafka-phyton sseclient
+$ pip install flask flask-cors kafka-python sseclient
 
 $ chmod -R 777 api csv notebooks
 
