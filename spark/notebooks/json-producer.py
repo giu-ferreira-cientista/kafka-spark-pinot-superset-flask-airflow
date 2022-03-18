@@ -43,14 +43,13 @@ mySchema = StructType([
  
 ])
 
+
 json_path = "/home/jovyan/work/json"
-json_topic = "national-health-indicators"
+json_topic = "patient-data"
 kafka_server = "kafka-server:29092"
 
+streamingDataFrame = spark.readStream.schema(mySchema).json(json_path)
 
-streamingDataFrame = spark.readStream.format("json").schema(mySchema).load(json_path)
-
-df = spark.readStream.schema(schema).json(json_path)
 
 streamingDataFrame.selectExpr("CAST(id AS STRING) AS key", "to_json(struct(*)) AS value") \
   .writeStream \
@@ -59,3 +58,6 @@ streamingDataFrame.selectExpr("CAST(id AS STRING) AS key", "to_json(struct(*)) A
   .option("kafka.bootstrap.servers", kafka_server) \
   .option("checkpointLocation", json_path) \
   .start()
+
+
+
