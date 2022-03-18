@@ -23,7 +23,7 @@ with DAG(
     # [START howto_operator_bash]
     run_this = BashOperator(
         task_id='call_json_producer',
-        bash_command='curl http://spark-server:5000/execute-json',
+        bash_command='curl http://spark:5000/execute-json',
     )
     # [END howto_operator_bash]
 

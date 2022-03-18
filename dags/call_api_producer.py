@@ -23,7 +23,7 @@ with DAG(
     # [START howto_operator_bash]
     run_this = BashOperator(
         task_id='call_api_producer',
-        bash_command='curl http://172.18.0.13:5000/execute-api',
+        bash_command='curl http://spark:5000/execute-api',
     )
     # [END howto_operator_bash]
 

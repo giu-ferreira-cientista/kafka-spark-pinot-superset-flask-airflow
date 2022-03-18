@@ -16,9 +16,6 @@ $ pip install flask flask-cors kafka-python sseclient
 
 $ chmod -R 777 api csv json notebooks
 
-
-!curl "https://api.mockaroo.com/api/e172bfb0?count=10&key=42e8f800" > "json/stacklabs9.json"
-
 $ cd api
 
 $ python app.py
