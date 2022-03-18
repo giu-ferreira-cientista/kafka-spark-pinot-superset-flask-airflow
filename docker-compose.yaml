@@ -186,6 +186,7 @@ services:
       - ./spark/notebooks:/home/jovyan/work/notebooks/
       - ./spark/api:/home/jovyan/work/api    
       - ./spark/csv:/home/jovyan/work/csv
+      - ./spark/json:/home/jovyan/work/json
       - ./spark/secrets:/etc/secrets
     depends_on:
       - kafka0

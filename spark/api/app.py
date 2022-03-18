@@ -38,6 +38,20 @@ def execute_csv():
         "message": "Command CSV Executed OK", 
         "status": "Pass"})
 
+@app.route('/execute-json', methods=['GET'])
+def execute_json():
+
+    print("Executing Command...")
+    
+    cmd = 'spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:2.4.5,io.delta:delta-core_2.12:0.7.0 --master local[*] --driver-memory 12g --executor-memory 12g /home/jovyan/work/notebooks/json-producer.py'
+
+    p = Popen(['watch', cmd]) # something long running
+    
+    #p.terminate()
+
+    return jsonify({
+        "message": "Command JSON Executed OK", 
+        "status": "Pass"})
 
 
 if __name__ == "__main__":
