@@ -10,6 +10,22 @@ $ docker-compose up airflow-init
 
 $ docker-compose up -d
 
+# Shell into spark container
+
+$ pip install flask flask-cors kafka-phyton sseclient
+
+$ chmod -R 777 api csv notebooks
+
+$ cd api
+
+$ python app.py
+
+$ curl <ip_spark>:5000/execute-csv
+
+$ curl <ip_spark>:5000/execute-api
+
+Start airflow csv_producer and api_producer dags
+
 
 Main Published Ports:
 - 8081 - Kafka-Ui
