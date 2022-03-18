@@ -295,6 +295,8 @@ services:
     <<: *airflow-common
     command: webserver
     container_name: "airflow-webserver"
+    links:
+      - "spark:spark-server" #allows airflow dags to discover spark service by name "spark-server"
     ports:
       - 8080:8080
     healthcheck:
