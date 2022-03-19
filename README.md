@@ -51,7 +51,7 @@ $ docker cp pinot/examples/airlineStats_realtime_table_config.json manual-pinot-
 # Sheel into manual-pinot-controller and Add Table
 $ bin/pinot-admin.sh AddTable \
     -schemaFile examples/stream/airlineStats/airlineStats_schema.json \
-    -tableConfigFile examples/airlineStats_realtime_table_config.json \
+    -tableConfigFile examples/addtable/airlineStats_realtime_table_config.json \
     -exec    
 
 # Configure Superset Enviroment
