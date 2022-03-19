@@ -214,6 +214,10 @@ services:
       - ./spark/secrets:/etc/secrets
     depends_on:
       - kafka0
+    command: "bash -c 'pip install flask flask-cors kafka-python sseclient && \
+               chmod -R 777 api csv json notebooks && \
+               cd api && \
+               python app.py'"
     user: root  
     working_dir: /home/jovyan/work
     environment:
@@ -306,7 +310,7 @@ services:
       - pinot-server
     networks:
       - stacklabs
-    restart: unless-stopped
+    restart: unless-stopped    
 
   postgres:
     image: postgres:13

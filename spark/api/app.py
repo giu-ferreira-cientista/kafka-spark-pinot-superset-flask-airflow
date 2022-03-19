@@ -7,6 +7,17 @@ from subprocess import Popen
 
 app = Flask(__name__)
 
+
+@app.route('/', methods=['GET'])
+def root():
+
+    print("Executing Root...")
+        
+    return jsonify({
+        "message": "Api Execcuting OK", 
+        "status": "Pass"})
+
+
 @app.route('/execute-api', methods=['GET'])
 def execute_api():
 
