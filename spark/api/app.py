@@ -4,6 +4,8 @@ from flask import Flask, request, jsonify
 import json
 from flask_cors import CORS
 from subprocess import Popen
+from kafka import KafkaConsumer, KafkaProducer
+import urllib.parse
 
 app = Flask(__name__)
 
@@ -78,6 +80,51 @@ def execute_csv_inference():
     return jsonify({
         "message": "Command CSV Inference Executed OK", 
         "status": "Pass"})
+
+
+@app.route('/getData', methods=['GET'])
+def kafkaConsumer():
+
+    KAFKA_SERVER = "kafka-server:29092"
+    CONSUMER_TOPIC_NAME = "NOTIFICATION"
+    consumer = KafkaConsumer(
+        CONSUMER_TOPIC_NAME,
+        auto_offset_reset='earliest', 
+        enable_auto_commit=True,
+        auto_commit_interval_ms=1000,
+        bootstrap_servers=[KAFKA_SERVER],
+        # to deserialize kafka.producer.object into dict
+        #value_deserializer=lambda m: json.loads(m.decode('utf-8')),
+    )
+
+    data_response = []
+
+    def sendNotification(data):
+        # process steps
+        data_response.append(data.decode('utf-8'))
+
+    retries = 1
+    while retries <= 1:        
+        msg_pack = consumer.poll(timeout_ms=500)
+
+        for tp, messages in msg_pack.items():
+            for message in messages:
+                # message value and key are raw bytes -- decode if necessary!
+                # e.g., for unicode: `message.value.decode('utf-8')`
+                print ("%s:%d:%d: key=%s value=%s" % (tp.topic, tp.partition,
+                                                    message.offset, message.key,
+                                                    message.value))
+                sendNotification(message.value)
+        retries += 1
+        
+    
+    print("Sent to consumer")
+    
+    return jsonify({
+        "message": data_response, 
+        "status": "Pass"})
+
+
 
 
 

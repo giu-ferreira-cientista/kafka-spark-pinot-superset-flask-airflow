@@ -2,7 +2,7 @@ import requests
 import json
 import time
 
-while True:
+hile True:
     try:
         url = "http://127.0.0.1:5000/kafka/getData"
             
@@ -11,7 +11,7 @@ while True:
 
         # Code here will only run if the request is successful
         print(response.json())  
-
+w
     except requests.exceptions.HTTPError as errh:
         print(errh)
     except requests.exceptions.ConnectionError as errc:
