@@ -94,9 +94,11 @@ $ kafka-topics --create --bootstrap-server <kafka0>:29092 --replication-factor 1
 
 # Console - Produce some events
 $ kafka-console-producer --broker-list <kafka0>:29092 --topic INFERENCE
+kafka-console-producer --broker-list 172.18.0.10:29092 --topic INFERENCE
 
 # Console - Open Consumer
 $ kafka-console-consumer --bootstrap-server <kafka0>:9092 --topic INFERENCE
+kafka-console-consumer --bootstrap-server 172.18.0.10:9092 --topic INFERENCE
 
 # Install Python Packages
 $ pip install flask
