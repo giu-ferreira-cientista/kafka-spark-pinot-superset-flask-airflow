@@ -89,9 +89,6 @@ def kafkaConsumer():
     CONSUMER_TOPIC_NAME = "NOTIFICATION"
     consumer = KafkaConsumer(
         CONSUMER_TOPIC_NAME,
-        auto_offset_reset='earliest', 
-        enable_auto_commit=True,
-        auto_commit_interval_ms=1000,
         bootstrap_servers=[KAFKA_SERVER],
         # to deserialize kafka.producer.object into dict
         #value_deserializer=lambda m: json.loads(m.decode('utf-8')),
