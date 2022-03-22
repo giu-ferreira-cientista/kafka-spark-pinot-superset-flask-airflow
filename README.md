@@ -54,6 +54,11 @@ $ bin/pinot-admin.sh AddTable \
     -tableConfigFile examples/addtable/airlineStats_realtime_table_config.json \
     -exec    
 
+$ bin/pinot-admin.sh AddTable \
+    -schemaFile examples/addtable/patient_schema.json \
+    -tableConfigFile examples/addtable/patient_realtime_table_config.json \
+    -exec        
+
 # Configure Superset Enviroment
 
 # Shell into superset container

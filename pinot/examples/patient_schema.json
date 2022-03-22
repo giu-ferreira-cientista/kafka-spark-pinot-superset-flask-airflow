@@ -1,0 +1,108 @@
+{
+    "schemaName": "patient",
+    "dimensionFieldSpecs": [
+      {
+        "name": "id",
+        "dataType": "INT"
+      },
+      {
+        "name": "nome",
+        "dataType": "STRING"
+      },
+      {
+        "name": "idade",
+        "dataType": "INT"
+      },
+      {
+        "name": "sexo",
+        "dataType": "INT"
+      },
+      {
+        "name": "peso",
+        "dataType": "FLOAT"
+      },
+      {
+        "name": "bpm",
+        "dataType": "FLOAT"
+      },
+      {
+        "name": "pressao",
+        "dataType": "FLOAT"
+      },
+      {
+        "name": "respiracao",
+        "dataType": "FLOAT"
+      },
+      {
+        "name": "temperatura",
+        "dataType": "FLOAT"
+      },
+      {
+        "name": "glicemia",
+        "dataType": "FLOAT"
+      },
+      {
+        "name": "saturacao_oxigenio",
+        "dataType": "FLOAT"
+      },
+      {
+        "name": "estado_atividade",
+        "dataType": "INT"
+      },
+      {
+        "name": "dia_de_semana",
+        "dataType": "INT"
+      },
+      {
+        "name": "periodo_do_dia",
+        "dataType": "INT"
+      },
+      {
+        "name": "semana_do_mes",
+        "dataType": "INT"
+      },
+      {
+        "name": "estacao_do_ano",
+        "dataType": "INT"
+      },
+      {
+        "name": "passos",
+        "dataType": "INT"
+      },
+      {
+        "name": "calorias",
+        "dataType": "FLOAT"
+      },
+      {
+        "name": "distancia",
+        "dataType": "FLOAT"
+      },
+      {
+        "name": "tempo",
+        "dataType": "FLOAT"
+      },
+      {
+        "name": "total_sleep_last_24",
+        "dataType": "FLOAT"
+      },
+      {
+        "name": "deep_sleep_last_24",
+        "dataType": "FLOAT"
+      },
+      {
+        "name": "light_sleep_last_24",
+        "dataType": "FLOAT"
+      },
+      {
+        "name": "awake_last_24",
+        "dataType": "FLOAT"
+      }
+
+    ],
+    "dateTimeFieldSpecs": [{
+      "name": "timestamp",
+      "dataType": "LONG",
+      "format" : "1:MILLISECONDS:EPOCH",
+      "granularity": "1:MILLISECONDS"
+    }]
+  }
