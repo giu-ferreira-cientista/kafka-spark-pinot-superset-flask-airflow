@@ -38,7 +38,7 @@ mySchema = StructType([
  StructField("deep_sleep_last_24", DoubleType()),
  StructField("light_sleep_last_24", DoubleType()),
  StructField("awake_last_24", DoubleType()),
- StructField("timestamp", StringType())
+ StructField("timestampstr", StringType())
  
 ])
 

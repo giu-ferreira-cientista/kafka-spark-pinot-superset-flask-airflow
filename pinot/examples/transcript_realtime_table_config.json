@@ -2,7 +2,7 @@
   "tableName": "transcript",
   "tableType": "REALTIME",
   "segmentsConfig": {
-    "timeColumnName": "timestamp",
+    "timeColumnName": "timestampstr",
     "timeType": "MILLISECONDS",
     "schemaName": "transcript",
     "replicasPerPartition": "1"
