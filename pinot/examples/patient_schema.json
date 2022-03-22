@@ -1,5 +1,5 @@
 {
-    "schemaName": "patient",
+    "schemaName": "patientsstr",
     "dimensionFieldSpecs": [
       {
         "name": "id",
@@ -100,9 +100,9 @@
 
     ],
     "dateTimeFieldSpecs": [{
-      "name": "timestamp",
-      "dataType": "LONG",
-      "format" : "1:MILLISECONDS:EPOCH",
+      "name": "timestampstr",
+      "dataType": "STRING",
+      "format": "1:HOURS:SIMPLE_DATE_FORMAT:yyyy-MM-dd HH:mm:ss",
       "granularity": "1:MILLISECONDS"
     }]
   }
