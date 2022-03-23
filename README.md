@@ -1,5 +1,5 @@
 # Data Pipeline API with Flask, Kafka, Spark, Pinot and Superset 
-Repositorio para armazenar os artefatos do projeto de conexao da API em Flask com o Kafka, processamento dos dados via spark e posterior OLAP Realtime with Low Latency com o Pinot e criação do Dashboard com o Superset para exibição de gráficos
+Repositorio para armazenar os artefatos do projeto de conexao da API em Flask com o Kafka, processamento dos dados via spark e posterior OLAP Realtime with Low Latency com o Pinot e e integração do Dashboard com o Superset para exibição dos gráficos.
 
 
 # USE DOCKER COMPOSE TO LOAD THE ENVIROMENT - kafka, kafka-ui, jupyter, spark, pinot, superset and airflow
