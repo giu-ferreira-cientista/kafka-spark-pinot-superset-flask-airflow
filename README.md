@@ -14,7 +14,7 @@ $ docker-compose up -d
 
 $ pip install flask flask-cors kafka-python sseclient
 
-$ chmod -R 777 api csv json notebooks
+$ chmod -R 777 api csv json notebooks app
 
 $ cd api
 

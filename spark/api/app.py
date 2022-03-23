@@ -25,7 +25,7 @@ def execute_api():
 
     print("Executing Command...")
     
-    cmd = 'spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:2.4.5,io.delta:delta-core_2.12:0.7.0 --master local[*] --driver-memory 12g --executor-memory 12g /home/jovyan/work/notebooks/event-producer.py'
+    cmd = 'spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:2.4.5,io.delta:delta-core_2.12:0.7.0 --master local[*] --driver-memory 12g --executor-memory 12g /home/jovyan/work/app/event-producer.py'
 
     p = Popen(['watch', cmd]) # something long running
     
@@ -41,7 +41,7 @@ def execute_csv():
 
     print("Executing Command...")
     
-    cmd = 'spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:2.4.5,io.delta:delta-core_2.12:0.7.0 --master local[*] --driver-memory 12g --executor-memory 12g /home/jovyan/work/notebooks/csv-producer.py'
+    cmd = 'spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:2.4.5,io.delta:delta-core_2.12:0.7.0 --master local[*] --driver-memory 12g --executor-memory 12g /home/jovyan/work/app/csv-producer.py'
 
     p = Popen(['watch', cmd]) # something long running
     
@@ -71,7 +71,7 @@ def execute_csv_inference():
 
     print("Executing Command...")
     
-    cmd = 'spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:2.4.5,io.delta:delta-core_2.12:0.7.0 --master local[*] --driver-memory 12g --executor-memory 12g /home/jovyan/work/notebooks/csv-inference-consumer.py'
+    cmd = 'spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:2.4.5,io.delta:delta-core_2.12:0.7.0 --master local[*] --driver-memory 12g --executor-memory 12g /home/jovyan/work/app/csv-inference-consumer.py'
 
     p = Popen(['watch', cmd]) # something long running
     

@@ -208,6 +208,7 @@ services:
       - "kafka0:kafka-server" #allows spark notebook to discover kafka service by name "kafka-server"
     volumes:
       - ./spark/notebooks:/home/jovyan/work/notebooks/
+      - ./spark/app:/home/jovyan/work/app/
       - ./spark/api:/home/jovyan/work/api    
       - ./spark/csv:/home/jovyan/work/csv
       - ./spark/json:/home/jovyan/work/json
