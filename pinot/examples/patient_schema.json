@@ -96,6 +96,10 @@
       {
         "name": "awake_last_24",
         "dataType": "FLOAT"
+      },
+      {
+        "name": "timestamp_epoch",
+        "dataType": "TIMESTAMP"
       }
 
     ],
