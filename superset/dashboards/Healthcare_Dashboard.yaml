@@ -1,0 +1,253 @@
+dashboard_title: Healthcare Dashboard
+description: null
+css: ''
+slug: dashboard
+uuid: ed50d8b8-1fe3-49a4-af96-90be90fb8037
+position:
+  CHART--0mrkhDZjS:
+    children: []
+    id: CHART--0mrkhDZjS
+    meta:
+      chartId: 80
+      height: 33
+      sliceName: avg_glicemia1
+      sliceNameOverride: Glicemia
+      uuid: 3f535a0f-9248-42b7-94a3-ba3e1ab6f739
+      width: 7
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-3AT1EuEWJ
+    type: CHART
+  CHART--qK4PbKR4D:
+    children: []
+    id: CHART--qK4PbKR4D
+    meta:
+      chartId: 82
+      height: 18
+      sliceName: kpi_avgtemp
+      sliceNameOverride: Temperatura Corporal
+      uuid: ec7ef011-8ad0-4a9d-b094-746da761020a
+      width: 2
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-wlzBjsxTr
+    type: CHART
+  CHART-3r66s3dKYl:
+    children: []
+    id: CHART-3r66s3dKYl
+    meta:
+      chartId: 85
+      height: 38
+      sliceName: bar_freqsono
+      sliceNameOverride: "Frequ\xEAncia de Sono"
+      uuid: df51b9e2-860a-45ee-a289-eecb465bbb1b
+      width: 12
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-eUZoNO7hr
+    type: CHART
+  CHART-PYPmVyNX63:
+    children: []
+    id: CHART-PYPmVyNX63
+    meta:
+      chartId: 79
+      height: 32
+      sliceName: sum_passos_barchart1
+      sliceNameOverride: "Hist\xF3rico de Passos"
+      uuid: 1230095d-6db2-4bf4-be49-c92055c5673b
+      width: 9
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-_lNeHXffWj
+    type: CHART
+  CHART-Uu2a5imZeU:
+    children: []
+    id: CHART-Uu2a5imZeU
+    meta:
+      chartId: 84
+      height: 18
+      sliceName: kpi_avgidade
+      sliceNameOverride: Idade
+      uuid: b3d4305b-37e7-4c18-96ff-ffc1edc3e987
+      width: 2
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-wlzBjsxTr
+    type: CHART
+  CHART-f9PsfGJHdH:
+    children: []
+    id: CHART-f9PsfGJHdH
+    meta:
+      chartId: 83
+      height: 18
+      sliceName: avg_ox
+      sliceNameOverride: "Satura\xE7\xE3o"
+      uuid: 51aa377c-9531-4f31-8d21-54e1a72dccdd
+      width: 2
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-wlzBjsxTr
+    type: CHART
+  CHART-o7ojGgf8xl:
+    children: []
+    id: CHART-o7ojGgf8xl
+    meta:
+      chartId: 86
+      height: 18
+      sliceName: avg_bpm
+      sliceNameOverride: "Batimento Card\xEDaco"
+      uuid: a3d0ba46-e88b-4b2e-a089-f41f5f5b1385
+      width: 2
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-wlzBjsxTr
+    type: CHART
+  CHART-yo7fQVZ_TA:
+    children: []
+    id: CHART-yo7fQVZ_TA
+    meta:
+      chartId: 81
+      height: 18
+      sliceName: kpi_avgpassos1
+      sliceNameOverride: Passos
+      uuid: fd84d8e2-d566-4a22-8e2f-05fbfd7a3206
+      width: 2
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-wlzBjsxTr
+    type: CHART
+  DASHBOARD_VERSION_KEY: v2
+  GRID_ID:
+    children:
+    - ROW-wlzBjsxTr
+    - ROW-eUZoNO7hr
+    - ROW-3AT1EuEWJ
+    - ROW-_lNeHXffWj
+    id: GRID_ID
+    parents:
+    - ROOT_ID
+    type: GRID
+  HEADER_ID:
+    id: HEADER_ID
+    meta:
+      text: Healthcare Dashboard
+    type: HEADER
+  ROOT_ID:
+    children:
+    - GRID_ID
+    id: ROOT_ID
+    type: ROOT
+  ROW-3AT1EuEWJ:
+    children:
+    - CHART--0mrkhDZjS
+    id: ROW-3AT1EuEWJ
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+  ROW-_lNeHXffWj:
+    children:
+    - CHART-PYPmVyNX63
+    id: ROW-_lNeHXffWj
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+  ROW-eUZoNO7hr:
+    children:
+    - CHART-3r66s3dKYl
+    id: ROW-eUZoNO7hr
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+  ROW-wlzBjsxTr:
+    children:
+    - CHART-Uu2a5imZeU
+    - CHART-yo7fQVZ_TA
+    - CHART--qK4PbKR4D
+    - CHART-f9PsfGJHdH
+    - CHART-o7ojGgf8xl
+    id: ROW-wlzBjsxTr
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+metadata:
+  show_native_filters: true
+  chart_configuration:
+    '79':
+      id: 79
+      crossFilters:
+        scope:
+          rootPath:
+          - ROOT_ID
+          excluded:
+          - 79
+    '85':
+      id: 85
+      crossFilters:
+        scope:
+          rootPath:
+          - ROOT_ID
+          excluded:
+          - 85
+  color_scheme: ''
+  refresh_frequency: 0
+  expanded_slices: {}
+  label_colors: {}
+  timed_refresh_immune_slices: []
+  default_filters: '{}'
+  native_filter_configuration:
+  - id: NATIVE_FILTER-FPp-JjGHX
+    controlValues:
+      sortAscending: true
+      enableEmptyFilter: false
+      defaultToFirstItem: false
+      multiSelect: false
+      searchAllOptions: false
+      inverseSelection: false
+    name: Paciente
+    filterType: filter_select
+    targets:
+    - column:
+        name: nome
+      datasetUuid: 43aa5125-1976-454a-a419-ce896fa8abdd
+    defaultDataMask:
+      extraFormData: {}
+      filterState: {}
+      ownState: {}
+    cascadeParentIds: []
+    scope:
+      rootPath:
+      - ROOT_ID
+      excluded: []
+    type: NATIVE_FILTER
+    description: ''
+    chartsInScope:
+    - 79
+    - 80
+    - 81
+    - 82
+    - 83
+    - 84
+    - 85
+    - 86
+    tabsInScope: []
+version: 1.0.0

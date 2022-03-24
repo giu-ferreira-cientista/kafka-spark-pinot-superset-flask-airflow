@@ -1,0 +1,60 @@
+slice_name: avg_glicemia1
+viz_type: line
+params:
+  adhoc_filters: []
+  annotation_layers: []
+  bottom_margin: auto
+  color_scheme: supersetColors
+  comparison_type: values
+  datasource: 22__table
+  extra_form_data: {}
+  granularity_sqla: timestamp
+  groupby: []
+  left_margin: auto
+  line_interpolation: linear
+  metrics:
+  - aggregate: AVG
+    column:
+      certification_details: null
+      certified_by: null
+      column_name: glicemia
+      description: null
+      expression: null
+      filterable: true
+      groupby: true
+      id: 744
+      is_certified: false
+      is_dttm: false
+      python_date_format: null
+      type: REAL
+      type_generic: 0
+      verbose_name: null
+      warning_markdown: null
+    expressionType: SIMPLE
+    hasCustomLabel: false
+    isNew: false
+    label: AVG(glicemia)
+    optionName: metric_s3ptsivi9bk_lxqrglcxl8
+    sqlExpression: null
+  order_desc: true
+  rich_tooltip: true
+  rolling_type: null
+  row_limit: 10000
+  show_brush: auto
+  slice_id: 80
+  time_grain_sqla: P1D
+  time_range: No filter
+  time_range_endpoints:
+  - inclusive
+  - exclusive
+  viz_type: line
+  x_axis_format: smart_date
+  x_ticks_layout: auto
+  y_axis_bounds:
+  - null
+  - null
+  y_axis_format: SMART_NUMBER
+cache_timeout: null
+uuid: 3f535a0f-9248-42b7-94a3-ba3e1ab6f739
+version: 1.0.0
+dataset_uuid: 43aa5125-1976-454a-a419-ce896fa8abdd

@@ -308,6 +308,8 @@ services:
     networks:
       - stacklabs
     restart: unless-stopped
+    volumes:
+      - ./superset:/superset
 
   postgres:
     image: postgres:13

@@ -1,0 +1,15 @@
+database_name: Pinot
+sqlalchemy_uri: pinot+http://pinot-broker:8099/query?server=http%3A%2F%2Fpinot-controller%3A9000%2F
+cache_timeout: null
+expose_in_sqllab: true
+allow_run_async: false
+allow_ctas: false
+allow_cvas: false
+allow_csv_upload: false
+extra:
+  metadata_params: {}
+  engine_params: {}
+  metadata_cache_timeout: {}
+  schemas_allowed_for_csv_upload: []
+uuid: 03afdc1d-7420-4862-97c2-d35c82b7dc14
+version: 1.0.0
