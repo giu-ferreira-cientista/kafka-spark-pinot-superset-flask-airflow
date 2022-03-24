@@ -99,7 +99,7 @@
       },
       {
         "name": "timestamp_epoch",
-        "dataType": "TIMESTAMP"
+        "dataType": "STRING"
       }
 
     ],
