@@ -199,7 +199,8 @@ services:
     restart: unless-stopped
 
   spark:
-    image: jupyter/all-spark-notebook:spark-3.1.1
+    build:            
+      dockerfile: docker/spark/Dockerfile
     container_name: "spark"
     ports:
       - "5500:5000"
@@ -207,17 +208,14 @@ services:
     links:
       - "kafka0:kafka-server" #allows spark notebook to discover kafka service by name "kafka-server"
     volumes:
-      - ./spark/notebooks:/home/jovyan/work/notebooks/
+      - ./spark/notebooks:/home/jovyan/work/notebooks
+      - ./spark/app:/home/jovyan/work/app
       - ./spark/api:/home/jovyan/work/api    
       - ./spark/csv:/home/jovyan/work/csv
       - ./spark/json:/home/jovyan/work/json
       - ./spark/secrets:/etc/secrets
     depends_on:
       - kafka0
-    command: "bash -c 'pip install flask flask-cors kafka-python sseclient && \
-               chmod -R 777 api csv json notebooks && \
-               cd api && \
-               python app.py'"
     user: root  
     working_dir: /home/jovyan/work
     environment:
@@ -310,7 +308,9 @@ services:
       - pinot-server
     networks:
       - stacklabs
-    restart: unless-stopped    
+    restart: unless-stopped
+    volumes:
+      - ./superset:/superset
 
   postgres:
     image: postgres:13
