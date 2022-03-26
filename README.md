@@ -65,6 +65,10 @@ $ pip install pinotdb==0.3.9
 $ docker cp ./superset/pinot_superset_datasource.yaml superset:/etc/examples/pinot/pinot_superset_datasource.yaml
 $ superset import_datasources -p /etc/examples/pinot/pinot_superset_datasource.yaml
 
+data field: timestamp_epoch
+format: epoch_s
+metrics: AVG(total_sleep_last_24), AVG(deep_sleep_last_24), AVG(light_sleep_last_24)
+Set Filter paciente to choose first by default
 
 # You will Need to Restart superset container and run commands below
 
