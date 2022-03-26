@@ -62,6 +62,10 @@ $ bin/pinot-admin.sh ChangeTableState -tableName patients -state drop -controlle
 # Shell into superset container
 $ pip install pinotdb==0.3.9
 
+$ docker cp ./superset/pinot_superset_datasource.yaml superset:/etc/examples/pinot/pinot_superset_datasource.yaml
+$ superset import_datasources -p /etc/examples/pinot/pinot_superset_datasource.yaml
+
+
 # You will Need to Restart superset container and run commands below
 
 $ docker exec -it superset superset fab create-admin \
@@ -79,6 +83,8 @@ $ docker exec \
     -t superset \
     bash -c 'superset import_datasources -p /etc/examples/pinot/pinot_example_datasource_quickstart.yaml && \
              superset import_dashboards -p /etc/examples/pinot/pinot_example_dashboard.json'
+
+
 
 
 # Load Sample Data into Kafka Topic and Query Pinot and Superset Again!

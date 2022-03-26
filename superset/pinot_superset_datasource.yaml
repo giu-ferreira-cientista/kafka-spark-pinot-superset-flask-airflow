@@ -1,0 +1,322 @@
+#
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+#
+
+databases:
+  - database_name: Pinot
+    sqlalchemy_uri: pinot+http://pinot-broker:8099/query?server=http://pinot-controller:9000/
+    cache_timeout: null
+    expose_in_sqllab: true
+    allow_run_async: false
+    allow_ctas: false
+    allow_cvas: false
+    allow_csv_upload: false
+    extra:
+    metadata_params: {}
+    engine_params: {}
+    metadata_cache_timeout: {}
+    schemas_allowed_for_csv_upload: []
+    uuid: 03afdc1d-7420-4862-97c2-d35c82b7dc14
+    version: 1.0.0
+    tables:
+      - columns:
+          - column_name: total_sleep_last_24
+            verbose_name: null
+            is_dttm: false
+            is_active: true
+            type: FLOAT
+            groupby: true
+            filterable: true
+            expression: null
+            description: null
+            python_date_format: null
+            extra: null
+          - column_name: deep_sleep_last_24
+            verbose_name: null
+            is_dttm: false
+            is_active: true
+            type: FLOAT
+            groupby: true
+            filterable: true
+            expression: null
+            description: null
+            python_date_format: null
+            extra: null
+          - column_name: light_sleep_last_24
+            verbose_name: null
+            is_dttm: false
+            is_active: true
+            type: FLOAT
+            groupby: true
+            filterable: true
+            expression: null
+            description: null
+            python_date_format: null
+            extra: null
+          - column_name: awake_last_24
+            verbose_name: null
+            is_dttm: false
+            is_active: true
+            type: FLOAT
+            groupby: true
+            filterable: true
+            expression: null
+            description: null
+            python_date_format: null
+            extra: null
+          - column_name: saturacao_oxigenio
+            verbose_name: null
+            is_dttm: false
+            is_active: true
+            type: FLOAT
+            groupby: true
+            filterable: true
+            expression: null
+            description: null
+            python_date_format: null
+            extra: null
+          - column_name: distancia
+            verbose_name: null
+            is_dttm: false
+            is_active: true
+            type: FLOAT
+            groupby: true
+            filterable: true
+            expression: null
+            description: null
+            python_date_format: null
+            extra: null
+          - column_name: respiracao
+            verbose_name: null
+            is_dttm: false
+            is_active: true
+            type: FLOAT
+            groupby: true
+            filterable: true
+            expression: null
+            description: null
+            python_date_format: null
+            extra: null
+          - column_name: calorias
+            verbose_name: null
+            is_dttm: false
+            is_active: true
+            type: FLOAT
+            groupby: true
+            filterable: true
+            expression: null
+            description: null
+            python_date_format: null
+            extra: null
+          - column_name: temperatura
+            verbose_name: null
+            is_dttm: false
+            is_active: true
+            type: FLOAT
+            groupby: true
+            filterable: true
+            expression: null
+            description: null
+            python_date_format: null
+            extra: null
+          - column_name: glicemia
+            verbose_name: null
+            is_dttm: false
+            is_active: true
+            type: FLOAT
+            groupby: true
+            filterable: true
+            expression: null
+            description: null
+            python_date_format: null
+            extra: null
+          - column_name: pressao
+            verbose_name: null
+            is_dttm: false
+            is_active: true
+            type: FLOAT
+            groupby: true
+            filterable: true
+            expression: null
+            description: null
+            python_date_format: null
+            extra: null
+          - column_name: bpm
+            verbose_name: null
+            is_dttm: false
+            is_active: true
+            type: FLOAT
+            groupby: true
+            filterable: true
+            expression: null
+            description: null
+            python_date_format: null
+            extra: null
+          - column_name: tempo
+            verbose_name: null
+            is_dttm: false
+            is_active: true
+            type: FLOAT
+            groupby: true
+            filterable: true
+            expression: null
+            description: null
+            python_date_format: null
+            extra: null
+          - column_name: peso
+            verbose_name: null
+            is_dttm: false
+            is_active: true
+            type: FLOAT
+            groupby: true
+            filterable: true
+            expression: null
+            description: null
+            python_date_format: null
+            extra: null
+          - column_name: timestampstr
+            verbose_name: null
+            is_dttm: false
+            is_active: true
+            type: STRING
+            groupby: true
+            filterable: true
+            expression: null
+            description: null
+            python_date_format: null
+            extra: null
+          - column_name: nome
+            verbose_name: null
+            is_dttm: false
+            is_active: true
+            type: STRING
+            groupby: true
+            filterable: true
+            expression: null
+            description: null
+            python_date_format: null
+            extra: null
+          - column_name: estacao_do_ano
+            verbose_name: null
+            is_dttm: false
+            is_active: true
+            type: LONG
+            groupby: true
+            filterable: true
+            expression: null
+            description: null
+            python_date_format: null
+            extra: null
+          - column_name: dia_de_semana
+            verbose_name: null
+            is_dttm: false
+            is_active: true
+            type: LONG
+            groupby: true
+            filterable: true
+            expression: null
+            description: null
+            python_date_format: null
+            extra: null
+          - column_name: semana_do_mes
+            verbose_name: null
+            is_dttm: false
+            is_active: true
+            type: LONG
+            groupby: true
+            filterable: true
+            expression: null
+            description: null
+            python_date_format: null
+            extra: null
+          - column_name: periodo_do_dia
+            verbose_name: null
+            is_dttm: false
+            is_active: true
+            type: LONG
+            groupby: true
+            filterable: true
+            expression: null
+            description: null
+            python_date_format: null
+            extra: null
+          - column_name: estado_atividade
+            verbose_name: null
+            is_dttm: false
+            is_active: true
+            type: LONG
+            groupby: true
+            filterable: true
+            expression: null
+            description: null
+            python_date_format: null
+            extra: null
+          - column_name: idade
+            verbose_name: null
+            is_dttm: false
+            is_active: true
+            type: LONG
+            groupby: true
+            filterable: true
+            expression: null
+            description: null
+            python_date_format: null
+            extra: null
+          - column_name: passos
+            verbose_name: null
+            is_dttm: false
+            is_active: true
+            type: LONG
+            groupby: true
+            filterable: true
+            expression: null
+            description: null
+            python_date_format: null
+            extra: null
+          - column_name: id
+            verbose_name: null
+            is_dttm: false
+            is_active: true
+            type: LONG
+            groupby: true
+            filterable: true
+            expression: null
+            description: null
+            python_date_format: null
+            extra: null
+          - column_name: sexo
+            verbose_name: null
+            is_dttm: false
+            is_active: true
+            type: LONG
+            groupby: true
+            filterable: true
+            expression: null
+            description: null
+            python_date_format: null
+            extra: null
+        metrics:
+          - metric_name: count
+            verbose_name: COUNT(*)
+            metric_type: count
+            expression: COUNT(*)
+            description: null
+            d3format: null
+            extra: null
+            warning_text: null
+        table_name: patients
