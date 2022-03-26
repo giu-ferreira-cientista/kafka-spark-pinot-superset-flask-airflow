@@ -357,3 +357,11 @@ docker rmi $(docker images -q)
 
 # Remove logs
 rm -rf /tmp/kafka-logs /tmp/zookeeper
+
+
+
+
+
+    command: "StartController -zkAddress zookeeper:2181"
+    command: "StartBroker -zkAddress zookeeper:2181"
+    command: "StartServer -zkAddress zookeeper:2181"
