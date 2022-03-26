@@ -62,9 +62,10 @@ $ bin/pinot-admin.sh ChangeTableState -tableName patients -state drop -controlle
 # Shell into superset container
 $ pip install pinotdb==0.3.9
 
-$ docker cp ./superset/pinot_superset_datasource.yaml superset:/etc/examples/pinot/pinot_superset_datasource.yaml
-$ superset import_datasources -p /etc/examples/pinot/pinot_superset_datasource.yaml
+# alternativa de importacao de datasources no superset
+$ superset import_datasources -p /superset/pinot_superset_datasource.yaml
 
+# alteracoes no superset
 data field: timestamp_epoch
 format: epoch_s
 metrics: AVG(total_sleep_last_24), AVG(deep_sleep_last_24), AVG(light_sleep_last_24)
@@ -88,7 +89,7 @@ $ docker exec \
     bash -c 'superset import_datasources -p /etc/examples/pinot/pinot_example_datasource_quickstart.yaml && \
              superset import_dashboards -p /etc/examples/pinot/pinot_example_dashboard.json'
 
-
+Login on browser and import dashboard file "/superset/dashboard_pinot_superset_add_filtro.zip"
 
 
 # Load Sample Data into Kafka Topic and Query Pinot and Superset Again!
