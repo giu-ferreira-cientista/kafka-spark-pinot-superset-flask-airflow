@@ -52,8 +52,9 @@ $ docker cp pinot/examples/airlineStats_realtime_table_config.json manual-pinot-
 $ bin/pinot-admin.sh AddTable \
     -schemaFile examples/addtable/patient_schema.json \
     -tableConfigFile examples/addtable/patient_realtime_table_config.json \
-    -exec        
-
+    -exec   
+         
+# Para apagar se necessario
 $ bin/pinot-admin.sh ChangeTableState -tableName patients -state drop -controllerHost pinot-controller -controllerPort 9000
 
 
@@ -62,7 +63,7 @@ $ bin/pinot-admin.sh ChangeTableState -tableName patients -state drop -controlle
 # Shell into superset container
 $ pip install pinotdb==0.3.9
 
-# alternativa de importacao de datasources no superset
+# Alternativa de importacao de datasources no superset
 $ superset import_datasources -p /superset/pinot_superset_datasource.yaml
 
 # alteracoes no superset
