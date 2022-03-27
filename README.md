@@ -4,8 +4,6 @@ Repositorio para armazenar os artefatos do projeto de conexao da API em Flask co
 
 # USE DOCKER COMPOSE TO LOAD THE ENVIROMENT - kafka, kafka-ui, jupyter, spark, pinot, superset and airflow
 
-$ echo -e "AIRFLOW_UID=$(id -u)" > .env
-
 $ docker-compose up airflow-init
 
 $ docker-compose up -d
@@ -20,9 +18,8 @@ $ cd api
 
 $ python app.py
 
-$ curl <ip_spark>:5000/execute-csv
+$ python app-ml.py
 
-$ curl <ip_spark>:5000/execute-api
 
 Start airflow csv_producer and api_producer dags
 
@@ -37,24 +34,21 @@ Main Services Ports:
 - 9092  - Kafka
 - 29092 - Kafka Broker
 - 2181  - Zookeeper
-- 2182  - Pinot Zookeeper
 - 9000  - Pinot Controller
 - 8099  - Pinot Broker
 - 8098  - Pinot Server
 - 4040  - Spark
 - 5000  - Rest API 
+- 4000  - Rest API ML
 
 
-# Create Pinot Table Schema
-$ docker cp pinot/examples/airlineStats_realtime_table_config.json manual-pinot-controller:/opt/pinot/examples/airlineStats_realtime_table_config.json
-
-# Sheel into manual-pinot-controller and Add Table
+# Shell into manual-pinot-controller and Add Table
 $ bin/pinot-admin.sh AddTable \
     -schemaFile examples/addtable/patient_schema.json \
     -tableConfigFile examples/addtable/patient_realtime_table_config.json \
     -exec   
          
-# Para apagar se necessario
+# Para apagar (apenas se for necessario)
 $ bin/pinot-admin.sh ChangeTableState -tableName patients -state drop -controllerHost pinot-controller -controllerPort 9000
 
 
@@ -63,16 +57,7 @@ $ bin/pinot-admin.sh ChangeTableState -tableName patients -state drop -controlle
 # Shell into superset container
 $ pip install pinotdb==0.3.9
 
-# Alternativa de importacao de datasources no superset
-$ superset import_datasources -p /superset/pinot_superset_datasource.yaml
-
-# alteracoes no superset
-data field: timestamp_epoch
-format: epoch_s
-metrics: AVG(total_sleep_last_24), AVG(deep_sleep_last_24), AVG(light_sleep_last_24)
-Set Filter paciente to choose first by default
-
-# You will Need to Restart superset container and run commands below
+# run commands below in host bash
 
 $ docker exec -it superset superset fab create-admin \
                --username admin \
@@ -87,69 +72,13 @@ $ docker exec -it superset superset init
 
 $ docker exec \
     -t superset \
-    bash -c 'superset import_datasources -p /etc/examples/pinot/pinot_example_datasource_quickstart.yaml && \
-             superset import_dashboards -p /etc/examples/pinot/pinot_example_dashboard.json'
+    bash -c 'superset import-dashboards -p /superset/dashboard_pinot_superset_add_historico.zip'
 
-Login on browser and import dashboard file "/superset/dashboard_pinot_superset_add_filtro.zip"
+    Or Login on browser and import dashboard file "/superset/dashboard_pinot_superset_add_historico.zip"
 
 
 # Load Sample Data into Kafka Topic and Query Pinot and Superset Again!
 {"id":3,"nome":"antonio","idade":66,"sexo":0,"peso":53,"bpm":121,"pressao":72,"respiracao":10,"temperatura":40,"glicemia":61,"saturacao_oxigenio":92,"estado_atividade":0,"dia_de_semana":1,"periodo_do_dia":2,"semana_do_mes":3,"estacao_do_ano":3,"passos":1071,"calorias":172,"distancia":48,"tempo":5,"total_sleep_last_24":4,"deep_sleep_last_24":4,"light_sleep_last_24":4,"awake_last_24":20,"timestampstr":"2022-03-26 02:04:21","timestamp_epoch":"1648260261"}
-
-# Running the Flask API Producers and Consumers
-
-# Create Kafka Topics (Inspect in kafka0 ang get <kafka0> ip address and change in commands below. Shell in kafka-zookeeper and run commands below)
-
-$ kafka-topics --create --bootstrap-server <kafka0>:29092 --replication-factor 1 --partitions 3 --topic INFERENCE
-
-$ kafka-topics --create --bootstrap-server <kafka0>:29092 --replication-factor 1 --partitions 3 --topic EMAIL
-
-$ kafka-topics --create --bootstrap-server <kafka0>:29092 --replication-factor 1 --partitions 3 --topic NOTIFICATION
-
-# Console - Produce some events
-$ kafka-console-producer --broker-list <kafka0>:29092 --topic INFERENCE
-kafka-console-producer --broker-list 172.18.0.10:29092 --topic INFERENCE
-
-# Console - Open Consumer
-$ kafka-console-consumer --bootstrap-server <kafka0>:9092 --topic INFERENCE
-kafka-console-consumer --bootstrap-server 172.18.0.10:9092 --topic INFERENCE
-
-# Install Python Packages
-$ pip install flask
-
-$ pip install flask-cors
-
-$ pip install kafka-python
-
-# Run API
-$ python app.py
-
-# Alternative - install gunicorn
-$ #pip install gunicorn
-$ #folder where app.py file is 
-$ #gunicorn -k gthread -w 2 -t 40000 --threads 3 -b:5000 app:app
-
-# Run Python Consumers
-$ python inference_consumer.py
-
-$ python email_consumer.py
-
-$ python notification_consumer.py
-
-# Run Random Producer
-$ python random_producer.py
-
-# Run API Producer
-$ python REST_API_producer.py
-
-# Run Random API Producer
-$ python random_REST_API_producer.py
-
-# Run REST API Consumer
-$ python REST_API_consumer.py
-
-# Just Sit and Watch!
-$ Check Kafka-Ui and console logs to see the data flow
 
 # Include Spark Structured Streaming Processing
 open 8888 port on your browser
@@ -159,70 +88,11 @@ $ jupyter notebook list
 
 copy and paste token on your browser
 
-# Running Spark Apps
-open all notebooks in this order and click Cell>Run All: producer, consumer, datavisualization 
-
-# Check Results on Kafka-Ui and Console Logs
-Query kafka topics and check the generated graphics and tables
-
-
-# Include Airlfow
-curl -LfO 'https://airflow.apache.org/docs/apache-airflow/2.2.4/docker-compose.yaml'
-mkdir -p ./dags ./logs ./plugins
-echo -e "AIRFLOW_UID=$(id -u)" > .env
-docker-compose up airflow-init
-docker-compose up
-Open browser port 8080 and login wit user airflow and password airflow
-
-# Copy DAG file to airflow directory
-docker cp dags/call_api_producer.py kafka-spark-pinot-superset-flask-airflow-airflow-webserver-1:/home/airflow/.local/lib/python3.7/site-packages/airflow/example_dags/call_api_producer.py
-
-docker cp kafka-spark-pinot-superset-flask-airflow-airflow-webserver-1:/home/airflow/.local/lib/python3.7/site-packages/airflow/example_dags/example_bash_operator.py dags/example_bash_operator.py
-
-# Include Spark API (Shell into Spark Container)
-$ pip install flask
-
-$ pip install flask-cors
-
-$ python app.py
-
-Find IP address of spark container to call the API on : <ip_spark>:5000/execute
-
-Or open the url on browser to call the API  : <ip_spark>:5500/execute
-
-# Command to execute via API (shell into spark container to test it)
-
-$ pip install sseclient
-
-$ pip install kafka-python
-
-$ spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:2.4.5,io.delta:delta-core_2.12:0.7.0 --master local[*] --driver-memory 12g --executor-memory 12g work/notebooks/event-producer.py
-
-
-
-# Another example 
-$ docker cp pinot/examples/transcript_realtime_table_config.json manual-pinot-controller:/opt/pinot/examples/transcript_realtime_table_config.json
-
-$ docker cp pinot/examples/transcript_schema.json manual-pinot-controller:/opt/pinot/examples/transcript_schema.json
-
-# Shell into Pinot controller 
-$ bin/pinot-admin.sh AddTable \
-    -schemaFile examples/transcript_schema.json \
-    -tableConfigFile examples/transcript_realtime_table_config.json \
-    -exec
-
-# Load sample data 
-open pinot/examples/transcript_sample_data.json and copy and paste into kafka-ui
-
-
 # Stop Flask
 $ stop the Flask Server with Ctrl-C
 
 # Stop Producers and Consumers
 $ stop terminals with Ctrl-C
-
-# Stop Kafka
-$ docker-compose docker-compose_kafka_spark_pinot_superset.yaml down
 
 # Stop all containers docker
 $ docker kill $(docker ps -q)

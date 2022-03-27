@@ -98,10 +98,45 @@
         "dataType": "FLOAT"
       },
       {
+        "name": "fumante",
+        "dataType": "INT"
+      },
+      {
+        "name": "genetica",
+        "dataType": "INT"
+      },
+      {
+        "name": "gestante",
+        "dataType": "INT"
+      },
+      {
+        "name": "frutas",
+        "dataType": "INT"
+      },
+      {
+        "name": "vegetais",
+        "dataType": "INT"
+      },
+      {
+        "name": "alcool",
+        "dataType": "INT"
+      },
+      {
+        "name": "doenca_coracao",
+        "dataType": "INT"
+      },
+      {
+        "name": "avc",
+        "dataType": "INT"
+      },
+      {
+        "name": "colesterol_alto",
+        "dataType": "INT"
+      },
+      {
         "name": "timestamp_epoch",
         "dataType": "STRING"
       }
-
     ],
     "dateTimeFieldSpecs": [{
       "name": "timestampstr",
