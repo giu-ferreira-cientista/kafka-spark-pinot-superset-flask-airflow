@@ -1,10 +1,7 @@
 # import libraries
 import json
-import time
-import os
-
 from pyspark.sql import SparkSession
-from pyspark.sql.types import StructType,StructField, StringType, IntegerType, DoubleType 	
+from pyspark.sql.types import StructType,StructField, StringType, IntegerType, DoubleType
 
 
 # Spark session & context
@@ -41,11 +38,14 @@ mySchema = StructType([
  StructField("total_sleep_last_24", DoubleType()),
  StructField("deep_sleep_last_24", DoubleType()),
  StructField("light_sleep_last_24", DoubleType()),
- StructField("awake_last_24", DoubleType()),
- StructField("timestampstr", StringType())
- 
+ StructField("awake_last_24", DoubleType()), 
+ StructField("timestampstr", StringType()),
+ StructField("timestamp_epoch", StringType())    
 ])
 
+import time
+
+import os
 
 timestr = time.strftime("%Y%m%d-%H%M%S")
 
@@ -55,11 +55,15 @@ os.system('curl "https://api.mockaroo.com/api/e172bfb0?count=10&key=42e8f800" > 
 
 os.system('mv ' + json_name + ' ../json')
 
+
+
 json_path = "/home/jovyan/work/json"
 json_topic = "patient-data"
 kafka_server = "kafka-server:29092"
 
 streamingDataFrame = spark.readStream.schema(mySchema).json(json_path)
+
+
 
 streamingDataFrame.selectExpr("CAST(id AS STRING) AS key", "to_json(struct(*)) AS value") \
   .writeStream \
@@ -68,4 +72,6 @@ streamingDataFrame.selectExpr("CAST(id AS STRING) AS key", "to_json(struct(*)) A
   .option("kafka.bootstrap.servers", kafka_server) \
   .option("checkpointLocation", json_path) \
   .start()
+
+
 
