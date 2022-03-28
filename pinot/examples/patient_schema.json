@@ -22,6 +22,10 @@
         "dataType": "FLOAT"
       },
       {
+        "name": "altura",
+        "dataType": "INT"
+      },
+      {
         "name": "bpm",
         "dataType": "FLOAT"
       },

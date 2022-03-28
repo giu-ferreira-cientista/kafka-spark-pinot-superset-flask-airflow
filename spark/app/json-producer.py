@@ -20,6 +20,7 @@ mySchema = StructType([
  StructField("idade", IntegerType()),
  StructField("sexo", IntegerType()),
  StructField("peso", DoubleType()),
+ StructField("altura", IntegerType()),
  StructField("bpm", DoubleType()),
  StructField("pressao", DoubleType()),
  StructField("respiracao", DoubleType()),
@@ -39,6 +40,15 @@ mySchema = StructType([
  StructField("deep_sleep_last_24", DoubleType()),
  StructField("light_sleep_last_24", DoubleType()),
  StructField("awake_last_24", DoubleType()), 
+ StructField("fumante", IntegerType()),
+ StructField("genetica", IntegerType()),
+ StructField("gestante", IntegerType()),
+ StructField("frutas", IntegerType()),
+ StructField("vegetais", IntegerType()),
+ StructField("alcool", IntegerType()),
+ StructField("doenca_coracao", IntegerType()),     
+ StructField("avc", IntegerType()),
+ StructField("colesterol_alto", IntegerType()),  
  StructField("timestampstr", StringType()),
  StructField("timestamp_epoch", StringType())    
 ])
