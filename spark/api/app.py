@@ -51,20 +51,101 @@ def execute_csv():
         "message": "Command CSV Executed OK", 
         "status": "Pass"})
 
-@app.route('/execute-json', methods=['GET'])
-def execute_json():
+@app.route('/execute-json-producer', methods=['GET'])
+def execute_json_producer():
 
     print("Executing Command...")
     
-    cmd = 'spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:2.4.5,io.delta:delta-core_2.12:0.7.0 --master local[*] --driver-memory 12g --executor-memory 12g /home/jovyan/work/notebooks/json-producer.py'
+    cmd = 'python /home/jovyan/work/app/json-producer-loop.py'
 
     p = Popen(['watch', cmd]) # something long running
     
     #p.terminate()
 
     return jsonify({
-        "message": "Command JSON Executed OK", 
+        "message": "Command JSON Producer Executed OK", 
         "status": "Pass"})
+
+@app.route('/execute-json-aggregate', methods=['GET'])
+def execute_json_aggregate():
+
+    print("Executing Command...")
+    
+    cmd = 'python /home/jovyan/work/app/json-aggregate.py'
+
+    p = Popen(['watch', cmd]) # something long running
+    
+    #p.terminate()
+
+    return jsonify({
+        "message": "Command JSON Aggregate Executed OK", 
+        "status": "Pass"})
+
+
+@app.route('/execute-json-notification-inference', methods=['GET'])
+def execute_json_notification_inference():
+
+    print("Executing Command...")
+    
+    cmd = 'python /home/jovyan/work/app/json-notification-inference-consumer.py'
+
+    p = Popen(['watch', cmd]) # something long running
+    
+    #p.terminate()
+
+    return jsonify({
+        "message": "Command JSON Notification Inference Executed OK", 
+        "status": "Pass"})
+
+
+@app.route('/execute-json-email-inference', methods=['GET'])
+def execute_json_email_inference():
+
+    print("Executing Command...")
+    
+    cmd = 'python /home/jovyan/work/app/json-email-inference-consumer.py'
+
+    p = Popen(['watch', cmd]) # something long running
+    
+    #p.terminate()
+
+    return jsonify({
+        "message": "Command JSON Email Inference Executed OK", 
+        "status": "Pass"})
+
+@app.route('/execute-json-notification-consumer', methods=['GET'])
+def execute_json_notification_consumer():
+
+    print("Executing Command...")
+    
+    cmd = 'python /home/jovyan/work/app/json-notification-consumer.py'
+
+    p = Popen(['watch', cmd]) # something long running
+    
+    #p.terminate()
+
+    return jsonify({
+        "message": "Command JSON Notification Consumer Executed OK", 
+        "status": "Pass"})
+
+
+
+@app.route('/execute-json-email-consumer', methods=['GET'])
+def execute_json_email_consumer():
+
+    print("Executing Command...")
+    
+    cmd = 'python /home/jovyan/work/app/json-email-consumer.py'
+
+    p = Popen(['watch', cmd]) # something long running
+    
+    #p.terminate()
+
+    return jsonify({
+        "message": "Command JSON Email Consumer Executed OK", 
+        "status": "Pass"})
+
+
 
 @app.route('/execute-csv-inference', methods=['GET'])
 def execute_csv_inference():

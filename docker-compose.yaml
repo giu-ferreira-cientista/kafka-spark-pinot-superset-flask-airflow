@@ -175,9 +175,7 @@ services:
 
   kafka-init-topics:
     image: confluentinc/cp-kafka:5.3.1
-    container_name: "kafka-init-topics"
-    volumes:
-       - ./message.json:/data/message.json
+    container_name: "kafka-init-topics"    
     depends_on:
       - kafka
     command: "bash -c 'echo Waiting for Kafka to be ready... && \

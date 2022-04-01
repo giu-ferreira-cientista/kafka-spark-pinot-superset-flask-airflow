@@ -1,8 +1,9 @@
 # import libraries
-import json
+#import json
 from pyspark.sql import SparkSession
 from pyspark.sql.types import StructType,StructField, StringType, IntegerType, DoubleType
-
+import time
+import os
 
 # Spark session & context
 spark = (SparkSession
@@ -53,36 +54,33 @@ mySchema = StructType([
  StructField("timestamp_epoch", StringType())    
 ])
 
-import time
 
-import os
+while True:
+    print("loop")
+    timestr = time.strftime("%Y%m%d-%H%M%S")
 
-timestr = time.strftime("%Y%m%d-%H%M%S")
+    json_name = "patient-data-" + timestr + '.json' 
 
-json_name = "patient-data-" + timestr + '.json' 
+    os.system('curl "https://api.mockaroo.com/api/e172bfb0?count=20&key=42e8f800" > ' + json_name)
 
-os.system('curl "https://api.mockaroo.com/api/e172bfb0?count=10&key=42e8f800" > ' + json_name)
-
-os.system('mv ' + json_name + ' ../json')
-
-
-
-json_path = "/home/jovyan/work/json"
-json_topic = "patient-data"
-kafka_server = "kafka-server:29092"
-
-streamingDataFrame = spark.readStream.schema(mySchema).json(json_path)
+    os.system('mv ' + json_name + ' /home/jovyan/work/json')
 
 
 
-streamingDataFrame.selectExpr("CAST(id AS STRING) AS key", "to_json(struct(*)) AS value") \
-  .writeStream \
-  .format("kafka") \
-  .option("topic", json_topic) \
-  .option("kafka.bootstrap.servers", kafka_server) \
-  .option("checkpointLocation", json_path) \
-  .start() \
-  .awaitTermination()
+    json_path = "/home/jovyan/work/json"
+    json_topic = "patient-data"
+    kafka_server = "kafka-server:29092"
 
+    streamingDataFrame = spark.readStream.schema(mySchema).json(json_path)
+
+    streamingDataFrame.selectExpr("CAST(id AS STRING) AS key", "to_json(struct(*)) AS value") \
+      .writeStream \
+      .format("kafka") \
+      .option("topic", json_topic) \
+      .option("kafka.bootstrap.servers", kafka_server) \
+      .option("checkpointLocation", json_path) \
+      .start()
+
+    time.sleep(3)
 
 

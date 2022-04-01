@@ -10,7 +10,7 @@ $ docker-compose up -d
 
 # Shell into spark container
 
-$ pip install flask flask-cors kafka-python sseclient
+$ pip install flask flask-cors kafka-python sseclient pyspark
 
 $ chmod -R 777 api csv json notebooks app
 
@@ -83,7 +83,7 @@ $ docker exec \
 # Include Spark Structured Streaming Processing
 open 8888 port on your browser
 
-# Shell into spark-1 Container
+# Shell into spark Container
 $ jupyter notebook list
 
 copy and paste token on your browser
