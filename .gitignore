@@ -126,3 +126,14 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Spark Checkpoints
+spark/json/commits/
+spark/json/offsets/
+spark/json/sources/
+spark/json/metadata
+
+spark/csv/commits/
+spark/csv/offsets/
+spark/csv/sources/
+spark/csv/metadata
