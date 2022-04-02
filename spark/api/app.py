@@ -21,7 +21,7 @@ def root():
     print("Executing Root...")
         
     return jsonify({
-        "message": "Api Execcuting OK", 
+        "message": "Api Executing OK", 
         "status": "Pass"})
 
 
@@ -30,7 +30,7 @@ def execute_api():
 
     print("Executing Command...")
     
-    cmd = 'spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:2.4.5,io.delta:delta-core_2.12:0.7.0 --master local[*] --driver-memory 12g --executor-memory 12g /home/jovyan/work/app/event-producer.py'
+    cmd = 'python /home/jovyan/work/app/event-producer.py'
 
     p = Popen(['watch', cmd]) # something long running
     
@@ -152,22 +152,6 @@ def execute_json_email_consumer():
 
 
 
-@app.route('/execute-csv-inference', methods=['GET'])
-def execute_csv_inference():
-
-    print("Executing Command...")
-    
-    cmd = 'spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:2.4.5,io.delta:delta-core_2.12:0.7.0 --master local[*] --driver-memory 12g --executor-memory 12g /home/jovyan/work/app/csv-inference-consumer.py'
-
-    p = Popen(['watch', cmd]) # something long running
-    
-    #p.terminate()
-
-    return jsonify({
-        "message": "Command CSV Inference Executed OK", 
-        "status": "Pass"})
-
-
 @app.route('/getData', methods=['GET'])
 def kafkaConsumer():
 
@@ -213,8 +197,6 @@ def kafkaConsumer():
 def predict():
     result = sid.polarity_scores(request.get_json()['data'])
     return jsonify(result)
-
-
 
 
 
