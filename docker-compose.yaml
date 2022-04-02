@@ -144,7 +144,9 @@ services:
     restart: unless-stopped
 
   spark:
-    image: jupyter/all-spark-notebook:spark-3.1.1
+    #image: jupyter/all-spark-notebook:spark-3.1.1
+    build:
+      dockerfile: ./docker/spark/Dockerfile
     container_name: "spark"
     ports:
       - "5500:5000"
@@ -228,9 +230,11 @@ services:
     networks:
       static-network:
         ipv4_address: 172.20.128.109      
-  
+
   superset:
-    image: apachepinot/pinot-superset:latest
+    #image: apachepinot/pinot-superset:latest
+    build:
+      dockerfile: ./docker/superset/Dockerfile
     container_name: "superset"
     ports:
       - "8088:8088"

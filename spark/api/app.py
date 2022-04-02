@@ -6,8 +6,13 @@ from flask_cors import CORS
 from subprocess import Popen
 from kafka import KafkaConsumer, KafkaProducer
 import urllib.parse
+import nltk
+nltk.download('vader_lexicon')
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+
 
 app = Flask(__name__)
+sid = SentimentIntensityAnalyzer()
 
 
 @app.route('/', methods=['GET'])
@@ -201,6 +206,13 @@ def kafkaConsumer():
     return jsonify({
         "message": data_response, 
         "status": "Pass"})
+
+
+
+@app.route('/predict', methods=['POST'])
+def predict():
+    result = sid.polarity_scores(request.get_json()['data'])
+    return jsonify(result)
 
 
 

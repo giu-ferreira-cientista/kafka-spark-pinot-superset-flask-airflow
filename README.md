@@ -4,21 +4,14 @@ Repositorio para armazenar os artefatos do projeto de conexao da API em Flask co
 
 # USE DOCKER COMPOSE TO LOAD THE ENVIROMENT - kafka, kafka-ui, jupyter, spark, pinot, superset and airflow
 
-$ docker-compose up airflow-init
 
-$ docker-compose up -d
+$ chmod +x start.sh
 
-# Shell into spark container
 
-$ pip install flask flask-cors kafka-python sseclient pyspark
+$ ./start.sh
 
-$ chmod -R 777 api csv json notebooks app
 
-$ cd api
 
-$ python app.py
-
-$ python app-ml.py
 
 
 Start airflow csv_producer and api_producer dags

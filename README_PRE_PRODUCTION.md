@@ -12,7 +12,7 @@ $ docker-compose up -d
 
 # Shell into spark container
 
-$ pip install flask flask-cors kafka-python sseclient
+$ pip install flask flask-cors kafka-python sseclient pyspark
 
 $ chmod -R 777 api csv json notebooks app
 
@@ -20,9 +20,7 @@ $ cd api
 
 $ python app.py
 
-$ curl <ip_spark>:5000/execute-csv
-
-$ curl <ip_spark>:5000/execute-api
+$ python app-ml.py
 
 Start airflow csv_producer and api_producer dags
 
