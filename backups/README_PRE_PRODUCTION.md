@@ -43,16 +43,13 @@ Main Services Ports:
 - 5000  - Rest API 
 
 
-# Create Pinot Table Schema
-$ docker cp pinot/examples/airlineStats_realtime_table_config.json manual-pinot-controller:/opt/pinot/examples/airlineStats_realtime_table_config.json
-
-# Sheel into manual-pinot-controller and Add Table
+# Shell into manual-pinot-controller and Add Table
 $ bin/pinot-admin.sh AddTable \
     -schemaFile examples/addtable/patient_schema.json \
     -tableConfigFile examples/addtable/patient_realtime_table_config.json \
     -exec   
          
-# Para apagar se necessario
+# Para apagar (apenas se for necessario)
 $ bin/pinot-admin.sh ChangeTableState -tableName patients -state drop -controllerHost pinot-controller -controllerPort 9000
 
 
@@ -61,16 +58,7 @@ $ bin/pinot-admin.sh ChangeTableState -tableName patients -state drop -controlle
 # Shell into superset container
 $ pip install pinotdb==0.3.9
 
-# Alternativa de importacao de datasources no superset
-$ superset import_datasources -p /superset/pinot_superset_datasource.yaml
-
-# alteracoes no superset
-data field: timestamp_epoch
-format: epoch_s
-metrics: AVG(total_sleep_last_24), AVG(deep_sleep_last_24), AVG(light_sleep_last_24)
-Set Filter paciente to choose first by default
-
-# You will Need to Restart superset container and run commands below
+# run commands below in host bash
 
 $ docker exec -it superset superset fab create-admin \
                --username admin \
@@ -85,13 +73,13 @@ $ docker exec -it superset superset init
 
 $ docker exec \
     -t superset \
-    bash -c 'superset import-dashboards -p /superset/dashboard_pinot_superset_add_tab.zip'
+    bash -c 'superset import-dashboards -p /superset/dashboard_pinot_superset_add_exercicio.zip'
 
-Or Login on browser and import dashboard file "/superset/dashboard_pinot_superset_add_tab.zip"
+    Or Login on browser and import dashboard file "/superset/dashboard_pinot_superset_add_exercicio.zip"
 
 
 # Load Sample Data into Kafka Topic and Query Pinot and Superset Again!
-{"id":3,"nome":"antonio","idade":66,"sexo":0,"peso":53,"bpm":121,"pressao":72,"respiracao":10,"temperatura":40,"glicemia":61,"saturacao_oxigenio":92,"estado_atividade":0,"dia_de_semana":1,"periodo_do_dia":2,"semana_do_mes":3,"estacao_do_ano":3,"passos":1071,"calorias":172,"distancia":48,"tempo":5,"total_sleep_last_24":4,"deep_sleep_last_24":4,"light_sleep_last_24":4,"awake_last_24":20,"timestampstr":"2022-03-26 02:04:21","timestamp_epoch":"1648260261"}
+{"id":1,"nome":"joao","idade":34,"sexo":0,"peso":59,"altura":170,"bpm":84,"pressao":125,"respiracao":19,"temperatura":36,"glicemia":121,"saturacao_oxigenio":95,"estado_atividade":1,"dia_de_semana":0,"periodo_do_dia":0,"semana_do_mes":0,"estacao_do_ano":3,"passos":151,"calorias":12.08,"distancia":188.75,"tempo":2.416,"total_sleep_last_24":7,"deep_sleep_last_24":6,"light_sleep_last_24":3,"awake_last_24":16,"fumante":1,"genetica":1,"gestante":0,"frutas":0,"vegetais":0,"alcool":1,"doenca_coracao":1,"avc":1,"colesterol_alto":1, "exercicio":0, "timestampstr":"2022-03-04 11:18:03","timestamp_epoch":"1646392683"}
 
 # Running the Flask API Producers and Consumers
 

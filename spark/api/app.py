@@ -41,19 +41,19 @@ def execute_api():
         "status": "Pass"})
 
 
-@app.route('/execute-csv', methods=['GET'])
+@app.route('/execute-csv-producer', methods=['GET'])
 def execute_csv():
 
     print("Executing Command...")
     
-    cmd = 'spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:2.4.5,io.delta:delta-core_2.12:0.7.0 --master local[*] --driver-memory 12g --executor-memory 12g /home/jovyan/work/app/csv-producer.py'
+    cmd = 'python /home/jovyan/work/app/csv-producer.py'
 
     p = Popen(['watch', cmd]) # something long running
     
     #p.terminate()
 
     return jsonify({
-        "message": "Command CSV Executed OK", 
+        "message": "Command CSV Producer Executed OK", 
         "status": "Pass"})
 
 @app.route('/execute-json-producer', methods=['GET'])
