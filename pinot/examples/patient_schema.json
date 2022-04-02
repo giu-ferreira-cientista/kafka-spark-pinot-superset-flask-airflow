@@ -138,6 +138,10 @@
         "dataType": "INT"
       },
       {
+        "name": "exercicio",
+        "dataType": "INT"
+      },
+      {
         "name": "timestamp_epoch",
         "dataType": "STRING"
       }

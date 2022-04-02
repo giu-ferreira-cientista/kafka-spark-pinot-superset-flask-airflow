@@ -49,6 +49,7 @@ mySchema = StructType([
  StructField("doenca_coracao", IntegerType()),     
  StructField("avc", IntegerType()),
  StructField("colesterol_alto", IntegerType()),  
+ StructField("exercicio", IntegerType()),  
  StructField("timestampstr", StringType()),
  StructField("timestamp_epoch", StringType())    
 ])
