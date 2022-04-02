@@ -36,9 +36,9 @@ def inferenceProcessFunction(data):
     
     json_data = json.loads(data)
     
-    print("eventTime:" + str(json_data['eventTime']) + ' / ' + "nome:" + str(json_data['nome']) + ' / ' + "bpm:" + str(json_data['avgbpm']) + ' / ' + "temp:" + str(json_data['avgtemp']) + ' / ' + "pressao:" + str(json_data['avgpressao']) + ' / ' + "respiracao:" + str(json_data['avgrespiracao']) + ' / ' + "glicemia:" + str(json_data['avgglicemia']) + ' / ' + "saturacao_oxigenio:" + str(json_data['avgsaturacao_oxigenio']))
+    print("eventTime:" + str(json_data['eventTime']) + ' / ' + "nome:" + str(json_data['nome']) + ' / ' + "bpm:" + str(json_data['avgbpm']) + ' / ' + "temp:" + str(json_data['avgtemp']))
     
-    if(json_data['avgbpm'] >= 120 or json_data['avgtemp'] >= 38 or json_data['avgpressao'] >= 13 or json_data['avgrespiracao'] >= 20 or json_data['avgglicemia'] >= 100 or json_data['avgsaturacao_oxigenio'] <= 94 ):
+    if(json_data['avgbpm'] >= 120 or json_data['avgtemp'] >= 38):
         notification_data = data        
         producer.send(NOTIFICATION_TOPIC, notification_data)
         producer.flush()
