@@ -9,10 +9,16 @@ import urllib.parse
 import nltk
 nltk.download('vader_lexicon')
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
-
+from pycaret.classification import *
+import pandas as pd
+import pickle
 
 app = Flask(__name__)
 sid = SentimentIntensityAnalyzer()
+
+model = load_model('/home/jovyan/work/api/DB_model')
+
+
 
 
 @app.route('/', methods=['GET'])
@@ -198,6 +204,45 @@ def predict():
     result = sid.polarity_scores(request.get_json()['data'])
     return jsonify(result)
 
+@app.route('/predict-diabetes', methods=['POST'])
+def predict_diabetes():
+
+    paciente = request.get_json()['data']
+    
+    print(paciente)
+
+    data_teste = pd.DataFrame()
+    data_teste['HighBP'] = [0]  
+    data_teste['HighChol'] = [0]
+    data_teste['BMI'] = [21]
+    data_teste['Smoker'] = [0] 
+    data_teste['Stroke'] = [1]
+    data_teste['HeartDiseaseorAttack'] = [0] 
+    data_teste['Fruits'] = [1] 
+    data_teste['Veggies'] = [1]
+    data_teste['HvyAlcoholConsump'] = [0]
+    data_teste['Sex'] = [1]
+    data_teste['PhysActivity'] = [1]
+    data_teste['Age'] = [1]
+    data_teste['Diabetes_012'] = [""]
+    exp_clf101 = setup(data = data_teste, target = 'Diabetes_012', use_gpu=False, silent=True)
+
+    #realiza a predição.
+    result = predict_model(model, data=data_teste)
+
+    #recupera os resultados.
+    classe = result["Label"][0]
+    prob = result["Score"][0]*100
+
+    print(classe)
+    print(prob)
+    
+    result_data = {}
+    result_data["classe"] = classe
+    result_data["prob"] = prob
+    
+    result = result_data
+    return jsonify(result)
 
 
 if __name__ == "__main__":
