@@ -45,7 +45,7 @@ with DAG(
     # [END operator_bash]
 
 
-    run_json_producer >> run_json_aggregate >> run_json_notification_inference >> run_json_notification_consumer
+    run_json_notification_consumer >> run_json_notification_inference >> run_json_aggregate >> run_json_producer   
 
 
 if __name__ == "__main__":

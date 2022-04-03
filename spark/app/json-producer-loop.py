@@ -62,7 +62,7 @@ while True:
 
     json_name = "patient-data-" + timestr + '.json' 
 
-    os.system('curl "https://api.mockaroo.com/api/e172bfb0?count=20&key=42e8f800" > ' + json_name)
+    os.system('curl "https://api.mockaroo.com/api/e172bfb0?count=5&key=42e8f800" > ' + json_name)
 
     os.system('mv ' + json_name + ' /home/jovyan/work/json')
 
@@ -82,6 +82,6 @@ while True:
       .option("checkpointLocation", json_path) \
       .start()
 
-    time.sleep(3)
+    time.sleep(10)
 
 

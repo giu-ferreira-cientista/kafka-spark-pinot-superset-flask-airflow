@@ -23,7 +23,8 @@ df = (spark
   .format("kafka")
   .option("kafka.bootstrap.servers", "kafka-server:29092") # kafka server
   .option("subscribe", "patient-data") # topic
-  .option("startingOffsets", "earliest") # start from beginning
+  .option("startingOffsets", "latest") # start from beginning
+  .option("failOnDataLoss", False)
   .load())
 
 
@@ -96,7 +97,7 @@ from pyspark.sql.functions import col, window
 windowedAvg = ( 
     df.withWatermark("eventTime", "5 minutes") 
       .groupBy(window(F.col("eventTime"), "5 minutes").alias('eventTimeWindow'), F.col("nome"))
-      .agg(F.avg("temperatura").alias("avgtemperature"),F.avg("bpm").alias("avgbpm"),F.avg("pressao").alias("avgpressao"),F.avg("respiracao").alias("avgrespiracao"),F.avg("glicemia").alias("avgglicemia"))       
+      .agg(F.avg("temperatura").alias("avgtemperature"),F.avg("bpm").alias("avgbpm"),F.avg("pressao").alias("avgpressao"),F.avg("respiracao").alias("avgrespiracao"),F.avg("glicemia").alias("avgglicemia"),F.avg("saturacao_oxigenio").alias("avgsaturacao_oxigenio") )       
       .orderBy(F.col("eventTimeWindow"))
       .select(
           F.col("eventTimeWindow.start").alias("eventTime"),
@@ -116,7 +117,7 @@ windowedAvg = (
 query = windowedAvg\
         .select(
             F.expr("CAST(eventTime AS STRING)").alias("key"),
-            F.expr("'{\"eventTime\":\"' || CAST(eventTime AS STRING) || '\",' || '\"nome\":' || CAST(nome AS STRING) || ',' || '\"avgbpm\":' || CAST(avgbpm AS STRING) || ',' || '\"avgtemp\":' || CAST(avgtemperature AS STRING) || ',' || '\"avgrespiracao\":' || CAST(avgrespiracao AS STRING) || ',' || '\"avgglicemia\":' || CAST(avgglicemia AS STRING) || ',' || '\"avgpressao\":' || CAST(avgpressao AS STRING) || ',' || '\"avgsaturacao_oxigenio\":' || CAST(avgsaturacao_oxigenio AS STRING) || '}'").alias("value")            
+            F.expr("'{\"eventTime\":\"' || CAST(eventTime AS STRING) || '\",' || '\"nome\":\"' || CAST(nome AS STRING) || '\",' || '\"avgbpm\":' || CAST(avgbpm AS STRING) || ',' || '\"avgtemp\":' || CAST(avgtemperature AS STRING) || ',' || '\"avgrespiracao\":' || CAST(avgrespiracao AS STRING) || ',' || '\"avgglicemia\":' || CAST(avgglicemia AS STRING) || ',' || '\"avgpressao\":' || CAST(avgpressao AS STRING) || ',' || '\"avgsaturacao_oxigenio\":' || CAST(avgsaturacao_oxigenio AS STRING) || '}'").alias("value")            
         ) \
         .writeStream\
         .outputMode('complete')\
@@ -131,7 +132,7 @@ query = windowedAvg\
 qk = (windowedAvg 
         .select(
             F.expr("CAST(eventTime AS STRING)").alias("key"),
-            F.expr("'{\"eventTime\":\"' || CAST(eventTime AS STRING) || '\",' || '\"nome\":' || CAST(nome AS STRING) || ',' || '\"avgbpm\":' || CAST(avgbpm AS STRING) || ',' || '\"avgtemp\":' || CAST(avgtemperature AS STRING) || ',' || '\"avgrespiracao\":' || CAST(avgrespiracao AS STRING) || ',' || '\"avgglicemia\":' || CAST(avgglicemia AS STRING) || ',' || '\"avgpressao\":' || CAST(avgpressao AS STRING) || ',' || '\"avgsaturacao_oxigenio\":' || CAST(avgsaturacao_oxigenio AS STRING) || '}'").alias("value")            
+            F.expr("'{\"eventTime\":\"' || CAST(eventTime AS STRING) || '\",' || '\"nome\":\"' || CAST(nome AS STRING) || '\",' || '\"avgbpm\":' || CAST(avgbpm AS STRING) || ',' || '\"avgtemp\":' || CAST(avgtemperature AS STRING) || ',' || '\"avgrespiracao\":' || CAST(avgrespiracao AS STRING) || ',' || '\"avgglicemia\":' || CAST(avgglicemia AS STRING) || ',' || '\"avgpressao\":' || CAST(avgpressao AS STRING) || ',' || '\"avgsaturacao_oxigenio\":' || CAST(avgsaturacao_oxigenio AS STRING) || '}'").alias("value")            
         ) 
         .writeStream 
         .format("kafka")

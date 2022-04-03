@@ -18,6 +18,7 @@ consumer = KafkaConsumer(
     bootstrap_servers=[KAFKA_SERVER],
     auto_offset_reset='earliest',
     enable_auto_commit=False,
+    group_id='my-group',
     # to deserialize kafka.producer.object into dict
     #value_deserializer=lambda m: json.loads(m.decode('utf-8')),
 )

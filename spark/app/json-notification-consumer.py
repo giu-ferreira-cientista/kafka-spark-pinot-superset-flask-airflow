@@ -10,7 +10,9 @@ KAFKA_SERVER = "kafka-server:29092"
 consumer = KafkaConsumer(
     TOPIC_NAME,
     bootstrap_servers=[KAFKA_SERVER],
-    enable_auto_commit=False,
+    group_id='my-group',
+    auto_offset_reset='latest',
+    #enable_auto_commit=False,
     # to deserialize kafka.producer.object into dict
     #value_deserializer=lambda m: json.loads(m.decode('utf-8')),
 )

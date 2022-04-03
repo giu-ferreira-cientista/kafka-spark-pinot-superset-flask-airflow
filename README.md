@@ -3,9 +3,21 @@ Repositorio para armazenar os artefatos do projeto de conexao da API em Flask co
 
 # HOW TO LOAD ALL THE ENVIROMENT - kafka, kafka-ui, jupyter, spark, pinot, superset and airflow
 
-$ chmod +x start.sh
+# Make scripts executable
+$ chmod +x _up.sh _down.sh _start.sh _stop.sh 
 
+# Build all and Compose up
+$ ./up.sh
+
+# Start an existing compose
 $ ./start.sh
+
+# Stop an existing compose
+$ ./stop.sh
+
+# Compose down and remove all containers
+$ ./down.sh
+
 
 Start airflow at port 8080 and run dags tagged with 'pipeline'
 

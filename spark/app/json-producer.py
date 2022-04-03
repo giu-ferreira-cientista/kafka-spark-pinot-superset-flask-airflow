@@ -62,7 +62,7 @@ timestr = time.strftime("%Y%m%d-%H%M%S")
 
 json_name = "patient-data-" + timestr + '.json' 
 
-os.system('curl "https://api.mockaroo.com/api/e172bfb0?count=10&key=42e8f800" > ' + json_name)
+os.system('curl "https://api.mockaroo.com/api/e172bfb0?count=1&key=42e8f800" > ' + json_name)
 
 os.system('mv ' + json_name + ' ../json')
 
@@ -82,8 +82,7 @@ streamingDataFrame.selectExpr("CAST(id AS STRING) AS key", "to_json(struct(*)) A
   .option("topic", json_topic) \
   .option("kafka.bootstrap.servers", kafka_server) \
   .option("checkpointLocation", json_path) \
-  .start() \
-  .awaitTermination()
+  .start() 
 
 
 

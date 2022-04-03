@@ -79,45 +79,64 @@ df_json.select(from_json(df_json.json, mySchema).alias('raw_data')) \
   .writeStream \
   .trigger(once=True) \
   .format("console") \
-  .start() \
-  .awaitTermination()
+  .start() 
+  #.awaitTermination()
 
 # Test service
 import requests
 import json
+from pycaret.classification import *
 
-data_jsons = '{"data":"' + 'I love you' + '"}'
-print(data_jsons)
-result = requests.post('http://127.0.0.1:5000/predict', json=json.loads(data_jsons))
-print(json.dumps(result.json()))
+#data_jsons = '{"data":"' + 'I love you' + '"}'
+#print(data_jsons)
+#result = requests.post('http://127.0.0.1:5000/predict', json=json.loads(data_jsons))
+#print(json.dumps(result.json()))
+
+model = load_model('model')
+#exp_clf101 = setup(data = df, target = 'Diabetes_012', use_gpu=False, silent=True)
 
 
-def apply_sentiment_analysis(data):
+def predict_diabetes(patient):
     import requests
     import json
     
-    list = [" Loves You", " Hates You"]
-    item = random.choice(list)    
+    data_teste = pd.DataFrame()
+    data_teste['HighBP'] = [0]  
+    data_teste['HighChol'] = [0]
+    data_teste['BMI'] = [21]
+    data_teste['Smoker'] = [0] 
+    data_teste['Stroke'] = [1]
+    data_teste['HeartDiseaseorAttack'] = [0] 
+    data_teste['Fruits'] = [1] 
+    data_teste['Veggies'] = [1]
+    data_teste['HvyAlcoholConsump'] = [0]
+    data_teste['Sex'] = [1]
+    data_teste['PhysActivity'] = [1]
+    data_teste['Age'] = [1]
+
+    #realiza a predição.
+    result = predict_model(model, data=data_teste)
+
+    #recupera os resultados.
+    classe = result["Label"][0]
+    prob = result["Score"][0]*100
+
+    print(classe)
+    print(prob)
+
+    print(data_teste)
     
-    data_jsons = '{"data":"' + data + item + '"}'
-    
-    print(data_jsons)
-    
-    result = requests.post('http://localhost:5000/predict', json=json.loads(data_jsons))
+    result = requests.post('http://localhost:5000/predict-diabetes', json=json.loads(data_teste))
     return json.dumps(result.json())
 
-vader_udf = udf(lambda data: apply_sentiment_analysis(data), StringType())
+vader_udf = udf(lambda patient: apply_sentiment_analysis(patient), StringType())
 
-schema_output = StructType([StructField('neg', StringType()),\
-                            StructField('pos', StringType()),\
-                            StructField('neu', StringType()),\
-                            StructField('compound', StringType())])
-
+schema_output = StructType([StructField('classe', StringType()),\
+                            StructField('prob', StringType())])
 
 df_json.select(from_json(df_json.json, mySchema).alias('raw_data')) \
-  .select('raw_data.nome') \
-  .filter("nome is not NULL") \
-  . select('nome', \
+  .select('raw_data.*') \
+  .select('nome', \
           from_json(vader_udf('nome'), schema_output).alias('response'))\
   .select('nome', 'response.*') \
   .writeStream \
