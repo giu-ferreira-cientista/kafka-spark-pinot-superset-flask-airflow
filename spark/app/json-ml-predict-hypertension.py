@@ -11,7 +11,7 @@ import requests
 spark = (SparkSession
          .builder
          .master('local')
-         .appName('json-ml-predict-diabetes')
+         .appName('json-ml-predict-hypertension')
          # Add kafka package
          .config("spark.jars.packages", "org.apache.spark:spark-sql-kafka-0-10_2.12:3.1.1")
          .getOrCreate())
@@ -88,7 +88,7 @@ df_json.select(from_json(df_json.json, mySchema).alias('raw_data')) \
 #print(json.dumps(result.json()))
 
 
-def predict_diabetes(patient):
+def predict_hypertension(patient):
     
     patient_dict = {}
     patient_dict['id'] = patient[0]
@@ -135,7 +135,7 @@ def predict_diabetes(patient):
     print(data_jsons)
     print()
 
-    result = requests.post('http://localhost:5000/predict-diabetes', json=data_jsons)
+    result = requests.post('http://localhost:5000/predict-hypertension', json=data_jsons)
         
     result_json = json.dumps(result.json().replace("[","").replace("]",""))
 
@@ -147,7 +147,7 @@ def predict_diabetes(patient):
     
     return result_json
 
-vader_udf = udf(lambda patient: predict_diabetes(patient), StringType())
+vader_udf = udf(lambda patient: predict_hypertension(patient), StringType())
 
 schema_output = StructType([StructField('label', IntegerType()),\
                             StructField('score', DoubleType())])
@@ -162,7 +162,8 @@ df_json.select(from_json(df_json.json, mySchema).alias('raw_data')) \
   .trigger(once=True) \
   .format("console") \
   .start() \
-  .awaitTermination()  
+  .awaitTermination()
+
 
 df_json.select(from_json(df_json.json, mySchema).alias('raw_data')) \
   .select('raw_data.*') \
@@ -177,7 +178,8 @@ df_json.select(from_json(df_json.json, mySchema).alias('raw_data')) \
   .writeStream \
   .format("kafka") \
   .option("kafka.bootstrap.servers", "kafka-server:29092") \
-  .option("checkpointLocation", "/home/jovyan/work/json/predict_diabetes") \
-  .option("topic", "predict-diabetes-data")        \
+  .option("checkpointLocation", "/home/jovyan/work/json/predict_hypertension") \
+  .option("topic", "predict-hypertension-data")        \
   .start()  \
   .awaitTermination()
+
