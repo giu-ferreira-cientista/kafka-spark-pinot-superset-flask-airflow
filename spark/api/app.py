@@ -16,10 +16,15 @@ import pickle
 app = Flask(__name__)
 sid = SentimentIntensityAnalyzer()
 
-model = load_model('/home/jovyan/work/api/DB_model')
+DB_model = load_model('/home/jovyan/work/api/DB_model')
 
+HT_model = load_model('/home/jovyan/work/api/HT_model')
 
+df_total = pd.read_csv("/home/jovyan/work/api/populacao.csv")
 
+df_total['Diabetes_012'] = ""
+
+exp_clf101 = setup(data = df_total, target = 'Diabetes_012', use_gpu=False, silent=True)
 
 @app.route('/', methods=['GET'])
 def root():
@@ -202,47 +207,109 @@ def kafkaConsumer():
 @app.route('/predict', methods=['POST'])
 def predict():
     result = sid.polarity_scores(request.get_json()['data'])
+    
+    print()
+    print(result)
+    print()
+
     return jsonify(result)
 
 @app.route('/predict-diabetes', methods=['POST'])
 def predict_diabetes():
 
-    paciente = request.get_json()['data']
+    paciente = request.get_json()
     
     print(paciente)
 
+    #paciente = json.loads(paciente)
+    # {"id": 1,  "nome": "joao",  "idade": 34,  "sexo": 0,  "peso": 84,  "altura": 170,  "bpm": 92,  "pressao": 146,  "respiracao": 11,  "temperatura": 37,  "glicemia": 128,  "saturacao_oxigenio": 98,  "estado_atividade": 2,  "dia_de_semana": 1,  "periodo_do_dia": 1,  "semana_do_mes": 2,  "estacao_do_ano": 3,  "passos": 303,  "calorias": 24.24,  "distancia": 378.75,  "tempo": 4.848,  "total_sleep_last_24": 6,  "deep_sleep_last_24": 5,  "light_sleep_last_24": 3,  "awake_last_24": 15,  "fumante": 1,  "genetica": 1,  "gestante": 0,  "frutas": 0,  "vegetais": 0,  "alcool": 1,  "doenca_coracao": 1,  "avc": 1,  "colesterol_alto": 1,  "exercicio": 0,  "timestampstr": "2022-03-20 11:19:28",  "timestamp_epoch": "1647775168"}
+
     data_teste = pd.DataFrame()
-    data_teste['HighBP'] = [0]  
-    data_teste['HighChol'] = [0]
-    data_teste['BMI'] = [21]
-    data_teste['Smoker'] = [0] 
-    data_teste['Stroke'] = [1]
-    data_teste['HeartDiseaseorAttack'] = [0] 
-    data_teste['Fruits'] = [1] 
-    data_teste['Veggies'] = [1]
-    data_teste['HvyAlcoholConsump'] = [0]
-    data_teste['Sex'] = [1]
-    data_teste['PhysActivity'] = [1]
-    data_teste['Age'] = [1]
+    if(float(paciente["pressao"]) > 12):
+        high_bp = 0
+    else:
+        high_bp = 1
+    data_teste['HighBP'] = [float(high_bp)]  
+    data_teste['HighChol'] = [float(paciente["colesterol_alto"])]
+    data_teste['BMI'] = [float(float(paciente["peso"]) / (float(paciente["altura"]) / 100) ** 2)]
+    data_teste['Smoker'] = [float(paciente["fumante"])] 
+    data_teste['Stroke'] = [float(paciente["avc"])]
+    data_teste['HeartDiseaseorAttack'] = [float(paciente["doenca_coracao"])] 
+    data_teste['Fruits'] = [float(paciente["frutas"])] 
+    data_teste['Veggies'] = [float(paciente["vegetais"])]
+    data_teste['HvyAlcoholConsump'] = [float(paciente["alcool"])]
+    data_teste['Sex'] = [float(paciente["sexo"])]
+    data_teste['PhysActivity'] = [float(paciente["exercicio"])]
+    data_teste['Age'] = [float(paciente["idade"])]
     data_teste['Diabetes_012'] = [""]
-    exp_clf101 = setup(data = data_teste, target = 'Diabetes_012', use_gpu=False, silent=True)
+
+    
+    print(data_teste['HighBP'])
+    print(data_teste['HighChol'])
+    print(data_teste['BMI'])
+    print(data_teste['Smoker'])
+    print(data_teste['Stroke'])
+    print(data_teste['HeartDiseaseorAttack'])
+    print(data_teste['Fruits'])
+    print(data_teste['Veggies'])
+    print(data_teste['HvyAlcoholConsump'])
+    print(data_teste['Sex'])
+    print(data_teste['PhysActivity'])
+    print(data_teste['Age'])
 
     #realiza a predição.
-    result = predict_model(model, data=data_teste)
+    result = predict_model(DB_model, data=data_teste)
 
     #recupera os resultados.
-    classe = result["Label"][0]
-    prob = result["Score"][0]*100
+    label = result["Label"][0]
+    score = result["Score"][0]*100
 
-    print(classe)
-    print(prob)
+    print(label)
+    print(score)    
+        
+    result_data = pd.DataFrame([{'label':label, 'score':score}], columns=['label', 'score'])
     
-    result_data = {}
-    result_data["classe"] = classe
-    result_data["prob"] = prob
+    return jsonify(result_data.to_json(orient="records")) 
+
+
+@app.route('/predict-hypertension', methods=['POST'])
+def predict_hypertension():
+
+    paciente = request.get_json()
     
-    result = result_data
-    return jsonify(result)
+    print(paciente)
+
+    # {"id": 1,  "nome": "joao",  "idade": 34,  "sexo": 0,  "peso": 84,  "altura": 170,  "bpm": 92,  "pressao": 146,  "respiracao": 11,  "temperatura": 37,  "glicemia": 128,  "saturacao_oxigenio": 98,  "estado_atividade": 2,  "dia_de_semana": 1,  "periodo_do_dia": 1,  "semana_do_mes": 2,  "estacao_do_ano": 3,  "passos": 303,  "calorias": 24.24,  "distancia": 378.75,  "tempo": 4.848,  "total_sleep_last_24": 6,  "deep_sleep_last_24": 5,  "light_sleep_last_24": 3,  "awake_last_24": 15,  "fumante": 1,  "genetica": 1,  "gestante": 0,  "frutas": 0,  "vegetais": 0,  "alcool": 1,  "doenca_coracao": 1,  "avc": 1,  "colesterol_alto": 1,  "exercicio": 0,  "timestampstr": "2022-03-20 11:19:28",  "timestamp_epoch": "1647775168"}
+
+    data_teste = pd.DataFrame()
+    data_teste['HighChol'] = [paciente["colesterol_alto"]]
+    data_teste['BMI'] = [int(paciente["peso"] / ((paciente["altura"] / 100) ** 2))]
+    data_teste['Smoker'] = [paciente["fumante"]] 
+    data_teste['Stroke'] = [paciente["avc"]]
+    data_teste['Drink_alcohol'] = [paciente["alcool"]]
+    data_teste['Sex'] = [paciente["sexo"]]
+    data_teste['Exercising'] = [paciente["exercicio"]]
+    data_teste['Age'] = [paciente["idade"]]
+    data_teste['Weight_kg'] = [paciente["idade"]]
+    data_teste['Systolic_bp'] = [paciente["pressao"]]
+    data_teste['Hemoglobin_concentration'] = [paciente["glicemia"]]
+    data_teste['Congestive_heart_failure'] = [paciente["doenca_coracao"]]
+    data_teste['Relative_heart_attack'] = [paciente["genetica"]]
+    data_teste['Height_cm'] = [paciente["altura"]]    
+
+    #realiza a predição.
+    result = predict_model(HT_model, data=data_teste)
+
+    #recupera os resultados.
+    label = result["Label"][0]
+    score = result["Score"][0]*100
+
+    print(label)
+    print(score)    
+        
+    result_data = pd.DataFrame([{'label':label, 'score':score}], columns=['label', 'score'])
+    
+    return jsonify(result_data.to_json(orient="records")) 
 
 
 if __name__ == "__main__":
