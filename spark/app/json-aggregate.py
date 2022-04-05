@@ -23,7 +23,7 @@ df = (spark
   .format("kafka")
   .option("kafka.bootstrap.servers", "kafka-server:29092") # kafka server
   .option("subscribe", "patient-data") # topic
-  .option("startingOffsets", "latest") # start from beginning
+  .option("startingOffsets", "earliest") # start from beginning
   .option("failOnDataLoss", False)
   .load())
 
