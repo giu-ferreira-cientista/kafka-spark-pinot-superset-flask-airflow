@@ -3,8 +3,6 @@ Repositorio para armazenar os artefatos do projeto de conexao da API em Flask co
 
 # HOW TO LOAD ALL THE ENVIROMENT - kafka, kafka-ui, jupyter, spark, pinot, superset and airflow
 
-pip install --upgrade pandas==1.3.4
-
 # Make scripts executable
 $ chmod +x _up.sh _down.sh _start.sh _stop.sh 
 

@@ -11,6 +11,6 @@ COPY ./spark/csv /home/jovyan/work/csv
 COPY ./spark/json /home/jovyan/work/json
 COPY ./spark/secrets /etc/secrets
 
-RUN chmod -R 777 /home/jovyan/ && pip install flask flask-cors kafka-python sseclient pyspark 
+RUN bash -c 'chmod -R 777 /home/jovyan/'
 
 EXPOSE 8888
