@@ -41,7 +41,7 @@ Main Services Ports:
 # Open Jupyter with Spark Structured Streaming Processing
 open 8888 port on your browser
 
-# Shell into spark Container
+# Shell into Spark Container
 $ jupyter notebook list
 
 copy and paste token on your browser
