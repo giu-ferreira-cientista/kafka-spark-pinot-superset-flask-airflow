@@ -8,16 +8,16 @@ Repositorio para armazenar os artefatos do projeto de conexao da API em Flask co
 $ chmod +x _up.sh _down.sh _start.sh _stop.sh 
 
 # Build all and Compose up
-$ ./up.sh
+$ ./_up.sh
 
 # Start an existing compose
-$ ./start.sh
+$ ./_start.sh
 
 # Stop an existing compose
-$ ./stop.sh
+$ ./_stop.sh
 
 # Compose down and remove all containers
-$ ./down.sh
+$ ./_down.sh
 
 
 Start airflow at port 8080 and run dags tagged with 'pipeline'
