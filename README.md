@@ -60,3 +60,4 @@ $ docker rmi $(docker images -q)
 
 # Clean and Prune Docker Enviroment
 $ docker system prune --all --force --volumes
+
