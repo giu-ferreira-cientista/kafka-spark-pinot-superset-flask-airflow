@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "stacklabs-payments",
+  "private_key_id": "0eca6457d09a248f9ddefe138d91a5271b5293a9",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEugIBADANBgkqhkiG9w0BAQEFAASCBKQwggSgAgEAAoIBAQCq6H+Gw2CZWZk7\nD1sgzJ7aX2U+yLZPqJ37UbiQSOreIiYVpVw481ocYPlKrX7HOzRUGBkcps3KAfq0\n/rbrIex/E5blxQZERqPPV/53B+M1PaiHrWBdvemlByKfDSyeoifPUDVG1ZA6xDJr\nxpIUpNBvD4s7wv5TCMChibxC12wMZ9VkES4auiC6zl0avglxnUD0mScwoY3jYn5J\nqmnAgd+HQBGyaEYfs4Q3Akh+5OD+X+MmIZQOUaHF1lxFZgWz/VUiOo3QLYueUWqU\nzF2CsIDZ8z0rzdxb9arf7JyCioD/LElniJIc91dBlKZnlG0pMKQSJpKNr9i/wO0K\nfEgrkPaNAgMBAAECggEAAxAm2veM92qi7lX3NDuz8Xt/YR7v9OEI2ycq4jvK/n9e\nWd8hwOvhoVET9A9EeVXPDrPI3W8tkIbfuKyOWDapL6+I8eYfAjcW5Vbb0Bko12cw\nalAZ7PbZUBR0PdAFYkl14ly7EQwvqSdONQl1IaAWPpX+JkHM1O2lpYTbsNdTZSx+\nqSRI+2HUSohk7u+Jpm687pv18h/DMk5TWi+dZtFWltAZeeZmioHl4mwsfBGBrUIP\nLet9/H7An14KWmLARpUV8CpCY0E93CyMzqA479xZUJbQsP4km1xgHysGhoGiIMlg\nkDmtJ7s8NQa8KPjZH3jvkPkM3rTvvwanD3HhZr8WoQKBgQDxs0PIh9m5mWDSptWP\nHXPTV1JH2sKJTZgQLICbM3yuNRlMiyPqWKg+szVve7g01ly9pc1HSghgKGo787Tl\nov/JD80L+4SpMD+UDGStxyzcF9mD/GpNOgK/EzZ5QOpr24lNnTT2wxxFw9kEYez5\nbSCY9o7x9M3A9SD14LwxRDayYQKBgQC1BQiUV4trUeGbPFGxRtY4Fic9U22miwij\nb7gJREN9+EwDSYxeDLqCKYB6AZimQBSh5ovvDRoZW+SatsLxm1PsYyvf6MFqRGyw\n1/yM7uf9Ql8wLEhru64NhJMKv4wlrzt0L2coVHxBZrctxgLTLmHym71LUqeeuols\n2lITm1hLrQKBgFUG2k6eM+LN6TjRxgkNtGRhsKlkdNE2gcsWzLtMdo0WUusRe7YC\nMFW2V5L7dAbqbj+tJzTv/1hMf2rNxhKOr+r8awbPGZEnTwZ3Aaf8jHR002lSD9dR\nFAxB5wTq6Ey/M2MhbbNtWfHU/vBCvsnUMQZ+njTSCNvboBe/UpUGSTOhAoGAFVcI\nkeRYLUiz3gcYYlvFeUszSQmCzbVqSUosWftQMZOJ8oFDKPs7KYkW+ksh4ceAJy30\npTPYNdEdfBe7l5wGIsH2NClOU+bJIXf07/BiLPscGaO+zeSMOk+8vfGi5fZofePw\nt1Jua49eXOkRADBhn6Y4hJ6z4ASBmvGJ54HSwOkCfxryMWQavFhvbM428Sqt7j3o\nfzpTR01CSuL5wPB1kgt41T98LS0tHIF5SmieqEF17ZHiv4FIgY6KyaJj9a69aBEx\nB9pWxQjhrI9j0dKcj5S50Hy9VjAGRoC5qFR6KvTxEAR+lrZXcW5qu9vairIRvgsQ\nZOIu27MrWJ0xeKJwICs=\n-----END PRIVATE KEY-----\n",
+  "client_email": "bigquery-labs@stacklabs-payments.iam.gserviceaccount.com",
+  "client_id": "115111564659187038386",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/bigquery-labs%40stacklabs-payments.iam.gserviceaccount.com"
+}
